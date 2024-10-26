@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "775539532196",
+    "project_id": "restaurant-menu-60d88",
+    "storage_bucket": "restaurant-menu-60d88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775539532196:android:276cbdeafffc08a87ee131",
+        "android_client_info": {
+          "package_name": "com.unaerp.restaurantmenu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5dGdy4TLzeoKIB9fhyDy5yr8Ls1uxtLw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
