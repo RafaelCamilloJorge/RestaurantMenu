@@ -1,4 +1,4 @@
-package com.unaerp.restaurantmenu
+package com.unaerp.restaurantmenu.Feature.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +10,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.unaerp.restaurantmenu.databinding.ActivityMainBinding
 import com.unaerp.restaurantmenu.viewmodel.MainViewModel
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.collect
+import com.unaerp.restaurantmenu.Feature.menu.MenuActivity
+import com.unaerp.restaurantmenu.R
+import com.unaerp.restaurantmenu.Feature.register.RegisterActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,9 +51,10 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.loginState.collect { result ->
                 result?.onSuccess {
-                    Toast.makeText(this@MainActivity, "Authentication successful.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Autenticação bem-sucedida.", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@MainActivity, MenuActivity::class.java))
                 }?.onFailure {
-                    Toast.makeText(this@MainActivity, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Falha na autenticação.", Toast.LENGTH_SHORT).show()
                 }
             }
         }

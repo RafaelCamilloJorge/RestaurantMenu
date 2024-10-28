@@ -1,4 +1,4 @@
-package com.unaerp.restaurantmenu
+package com.unaerp.restaurantmenu.Feature.register
 
 import android.os.Bundle
 import android.widget.Toast
@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.unaerp.restaurantmenu.R
 import com.unaerp.restaurantmenu.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {

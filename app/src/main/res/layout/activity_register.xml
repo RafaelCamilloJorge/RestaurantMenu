@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.unaerp.restaurantmenu.RegisterActivity">
+    tools:context="com.unaerp.restaurantmenu.Feature.register.RegisterActivity">
 
     <EditText
         android:id="@+id/fieldName"
