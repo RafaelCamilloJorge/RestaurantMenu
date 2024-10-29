@@ -42,7 +42,6 @@ class MenuRecyclerViewAdapter(
             is MenuRecyclerViewHolder.CategoryViewHolder -> {
                 val category = item as MenuCategory
                 holder.binding.categoryTitle.text = category.title
-                holder.itemView.setOnClickListener { onClick(item) }
             }
             is MenuRecyclerViewHolder.ItemViewHolder -> {
                 val menuItem = item as MenuItem
