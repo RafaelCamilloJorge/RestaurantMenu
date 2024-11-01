@@ -3,11 +3,14 @@ package com.unaerp.restaurantmenu.core.repositories.auth
 import com.unaerp.restaurantmenu.core.results.OnResult
 
 interface AuthRepository {
-    fun createAccountWithEmailAndPassword(email: String, password: String): OnResult<Boolean>
+    suspend fun createAccountWithEmailAndPassword(
+        email: String,
+        password: String
+    ): OnResult<Boolean>
 
-    fun loginWithEmailAndPassword(email: String, password: String): OnResult<Boolean>
+    suspend fun loginWithEmailAndPassword(email: String, password: String): OnResult<Boolean>
 
-    fun logout(): OnResult<Boolean>
+    suspend fun logout(): OnResult<Unit>
 
-    fun forgotPassword(email: String): OnResult<Boolean>
+    suspend fun forgotPassword(email: String): OnResult<Unit>
 }

@@ -6,11 +6,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.unaerp.restaurantmenu.core.repositories.auth.AuthRepository
 import com.unaerp.restaurantmenu.core.repositories.errors.GenericError
 import com.unaerp.restaurantmenu.core.results.OnResult
+import kotlinx.coroutines.tasks.await
 
 class AuthRepositoryImpl : AuthRepository {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    override fun createAccountWithEmailAndPassword(
+    override suspend fun createAccountWithEmailAndPassword(
         email: String,
         password: String
     ): OnResult<Boolean> {
@@ -23,7 +24,7 @@ class AuthRepositoryImpl : AuthRepository {
         }
     }
 
-    override fun loginWithEmailAndPassword(email: String, password: String): OnResult<Boolean> {
+    override suspend fun loginWithEmailAndPassword(email: String, password: String): OnResult<Boolean> {
         try {
             val authResult: Task<AuthResult> = auth.signInWithEmailAndPassword(email, password)
             if (authResult.exception != null) return OnResult.Error(GenericError(authResult.exception!!.message))
@@ -33,19 +34,19 @@ class AuthRepositoryImpl : AuthRepository {
         }
     }
 
-    override fun logout(): OnResult<Boolean> {
+    override suspend fun logout(): OnResult<Unit> {
         try {
             auth.signOut()
-            return OnResult.Success(true)
+            return OnResult.Success(Unit)
         } catch (error: Error) {
             return OnResult.Error(GenericError("Erro ao sair, tente novamente"))
         }
     }
 
-    override fun forgotPassword(email: String): OnResult<Boolean> {
+    override suspend fun forgotPassword(email: String): OnResult<Unit> {
         try {
             auth.sendPasswordResetEmail(email)
-            return OnResult.Success(true)
+            return OnResult.Success(Unit)
         } catch (error: Error) {
             return OnResult.Error(GenericError("Erro ao enviar email de recuperação"))
         }
