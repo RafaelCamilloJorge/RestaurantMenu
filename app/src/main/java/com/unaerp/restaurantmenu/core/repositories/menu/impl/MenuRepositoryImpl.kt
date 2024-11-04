@@ -42,7 +42,7 @@ class MenuRepositoryImpl(override val db: FirebaseFirestore) : MenuRepository {
             docRefUser.update("shopping_cart", currentCart)
             return OnResult.Success(Unit)
         } catch (error: Error) {
-            return OnResult.Error(GenericError("Erro ao adicionar item"))
+            return OnResult.Error(GenericError("Erro ao remover item"))
         }
     }
 
@@ -60,7 +60,24 @@ class MenuRepositoryImpl(override val db: FirebaseFirestore) : MenuRepository {
             docRefUser.update("shopping_cart", currentCart)
             return OnResult.Success(Unit)
         } catch (error: Error) {
-            return OnResult.Error(GenericError("Erro ao adicionar item"))
+            return OnResult.Error(GenericError("Erro ao editar item"))
+        }
+    }
+
+    override suspend fun getTotalValueOfShoppingCar(
+        idUser: String
+    ): OnResult<Double> {
+        try {
+            var totalValue = 0.0
+            val docRefUser: DocumentReference = db.collection("users").document(idUser)
+            val currentCart = docRefUser.get() as MutableList<MutableMap<String, Any>>
+            currentCart.forEach { item ->
+                totalValue += item["price"].toString().toDouble()
+            }
+            docRefUser.update("shopping_cart", currentCart)
+            return OnResult.Success(totalValue)
+        } catch (error: Error) {
+            return OnResult.Error(GenericError("Erro ao ao buscar o valor total"))
         }
     }
 }

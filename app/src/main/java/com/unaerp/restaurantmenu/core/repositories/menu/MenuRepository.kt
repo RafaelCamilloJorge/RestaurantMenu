@@ -18,4 +18,5 @@ interface MenuRepository {
         idItem: String, newQuantity: Int, idUser: String
     ): OnResult<Unit>
 
+    suspend fun getTotalValueOfShoppingCar(idUser: String): OnResult<Double>
 }
