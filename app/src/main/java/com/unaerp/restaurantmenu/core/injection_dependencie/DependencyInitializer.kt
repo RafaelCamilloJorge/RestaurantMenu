@@ -1,4 +1,3 @@
-import com.unaerp.restaurantmenu.core.repositories.auth.impl.AuthRepositoryImpl
 import com.unaerp.restaurantmenu.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
