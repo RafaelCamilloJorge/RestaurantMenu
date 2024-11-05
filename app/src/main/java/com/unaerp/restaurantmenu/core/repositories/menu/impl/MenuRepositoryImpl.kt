@@ -37,9 +37,12 @@ class MenuRepositoryImpl(override val db: FirebaseFirestore) : MenuRepository {
     override suspend fun removeItemInShoppingCar(idItem: String, idUser: String): OnResult<Unit> {
         try {
             val docRefUser: DocumentReference = db.collection("users").document(idUser)
-            val currentCart = docRefUser.get() as MutableList<Map<String, Any>>
-            currentCart.removeIf { item -> item.getValue("id") == idItem }
-            docRefUser.update("shopping_cart", currentCart)
+            docRefUser.get().addOnCompleteListener { doc ->
+                val shoppingCar: MutableList<MutableMap<String, Any>> =
+                    doc.result.get("shopping_cart") as MutableList<MutableMap<String, Any>>
+                shoppingCar.removeIf { item -> item.getValue("id") == idItem }
+                docRefUser.update("shopping_cart", shoppingCar)
+            }
             return OnResult.Success(Unit)
         } catch (error: Error) {
             return OnResult.Error(GenericError("Erro ao remover item"))
@@ -51,13 +54,16 @@ class MenuRepositoryImpl(override val db: FirebaseFirestore) : MenuRepository {
     ): OnResult<Unit> {
         try {
             val docRefUser: DocumentReference = db.collection("users").document(idUser)
-            val currentCart = docRefUser.get() as MutableList<MutableMap<String, Any>>
-            currentCart.forEach { item ->
-                if (item.getValue("id") == idItem) {
-                    item["quantity"] = newQuantity
+            docRefUser.get().addOnCompleteListener { doc ->
+                val shoppingCar: MutableList<MutableMap<String, Any>> =
+                    doc.result.get("shopping_cart") as MutableList<MutableMap<String, Any>>
+                shoppingCar.forEach { item ->
+                    if (item.getValue("id") == idItem) {
+                        item["quantity"] = newQuantity
+                    }
                 }
+                docRefUser.update("shopping_cart", shoppingCar)
             }
-            docRefUser.update("shopping_cart", currentCart)
             return OnResult.Success(Unit)
         } catch (error: Error) {
             return OnResult.Error(GenericError("Erro ao editar item"))
@@ -70,11 +76,13 @@ class MenuRepositoryImpl(override val db: FirebaseFirestore) : MenuRepository {
         try {
             var totalValue = 0.0
             val docRefUser: DocumentReference = db.collection("users").document(idUser)
-            val currentCart = docRefUser.get() as MutableList<MutableMap<String, Any>>
-            currentCart.forEach { item ->
-                totalValue += item["price"].toString().toDouble()
+            docRefUser.get().addOnCompleteListener { doc ->
+                val shoppingCar: MutableList<MutableMap<String, Any>> =
+                    doc.result.get("shopping_cart") as MutableList<MutableMap<String, Any>>
+                shoppingCar.forEach { item ->
+                    totalValue += item["price"].toString().toDouble()
+                }
             }
-            docRefUser.update("shopping_cart", currentCart)
             return OnResult.Success(totalValue)
         } catch (error: Error) {
             return OnResult.Error(GenericError("Erro ao ao buscar o valor total"))
