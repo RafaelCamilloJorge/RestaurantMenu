@@ -6,17 +6,16 @@ import com.unaerp.restaurantmenu.Domain.MenuItem
 import com.unaerp.restaurantmenu.core.results.OnResult
 
 interface MenuRepository {
-    val db: FirebaseFirestore
 
     suspend fun getMenu(): OnResult<List<MenuCategory>>
 
-    suspend fun addItemInShoppingCar(item: MenuItem, idUser: String): OnResult<Unit>
+    suspend fun addItemInShoppingCar(item: MenuItem): OnResult<Unit>
 
-    suspend fun removeItemInShoppingCar(idItem: String, idUser: String): OnResult<Unit>
+    suspend fun removeItemInShoppingCar(idItem: String): OnResult<Unit>
 
     suspend fun editQuantityOfItemInShoppingCar(
-        idItem: String, newQuantity: Int, idUser: String
+        idItem: String, newQuantity: Int
     ): OnResult<Unit>
 
-    suspend fun getTotalValueOfShoppingCar(idUser: String): OnResult<Double>
+    suspend fun getTotalValueOfShoppingCar(): OnResult<Double>
 }

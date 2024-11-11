@@ -18,4 +18,14 @@ class MenuItem(
             )
         }
     }
+
+    fun toMap(): Map<String, Any> {
+        return mapOf(
+            "id" to id,
+            "name" to name,
+            "description" to description,
+            "price" to price,
+            "image" to image,
+        )
+    }
 }
