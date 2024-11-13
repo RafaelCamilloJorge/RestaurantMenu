@@ -1,31 +1,26 @@
 package com.unaerp.restaurantmenu.core.data_source.impl
 
-import com.google.firebase.Firebase
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.auth
-import com.unaerp.restaurantmenu.Domain.UserCreated
-import com.unaerp.restaurantmenu.core.data_source.FirebaseAuthenticationDataSource
-import com.unaerp.restaurantmenu.core.repositories.errors.GenericError
+import com.unaerp.restaurantmenu.Domain.UserAuth
+import com.unaerp.restaurantmenu.core.data_source.RemoteAuthenticationDataSource
+import com.unaerp.restaurantmenu.core.errors.GenericError
 import com.unaerp.restaurantmenu.core.results.OnResult
 import kotlinx.coroutines.tasks.await
 
-class FirebaseAuthenticationDataSourceImpl : FirebaseAuthenticationDataSource {
-    private val auth: FirebaseAuth = Firebase.auth
-
+class RemoteAuthenticationDataSourceImpl(private val auth: FirebaseAuth) :
+    RemoteAuthenticationDataSource {
     override suspend fun createUserWithEmailAndPassword(
-        email: String,
-        password: String
-    ): OnResult<UserCreated> {
+        email: String, password: String
+    ): OnResult<UserAuth> {
         try {
             val result = auth.createUserWithEmailAndPassword(email, password).await()
             val firebaseUser: FirebaseUser? = result.user
             return if (firebaseUser != null && firebaseUser.email != null) {
                 OnResult.Success(
-                    UserCreated(
-                        firebaseUser.email!!,
-                        firebaseUser.uid
+                    UserAuth(
+                        firebaseUser.email!!, firebaseUser.uid
                     )
                 )
             } else {
@@ -36,15 +31,22 @@ class FirebaseAuthenticationDataSourceImpl : FirebaseAuthenticationDataSource {
         }
     }
 
+    override suspend fun loginWithEmailAndPassword(
+        email: String, password: String
+    ): OnResult<UserAuth> {
+        try {
+            val response = auth.signInWithEmailAndPassword(email, password).await()
 
-    fun login(email: String, password: String): OnResult<Unit> {
-        val response = auth.signInWithEmailAndPassword(email, password)
-        if (response.isSuccessful) {
-            return OnResult.Success(Unit)
-        } else if (response.isCanceled) {
-            return OnResult.Error(GenericError("Operação cancelada"))
-        } else {
-            return OnResult.Error(GenericError(response.exception?.message))
+            if (response.user != null) {
+                return OnResult.Success(
+                    UserAuth(
+                        response.user!!.email!!, response.user!!.uid
+                    )
+                )
+            }
+            return OnResult.Error(GenericError("Erro ao ler credenciais"))
+        } catch (error: Error) {
+            return OnResult.Error(GenericError("Erro ao entrar, tente novamente"))
         }
     }
 

@@ -1,6 +1,6 @@
 package com.unaerp.restaurantmenu.Domain
 
-class UserCreated(
+class UserAuth(
     val email: String,
     val uid: String
 ) {}
