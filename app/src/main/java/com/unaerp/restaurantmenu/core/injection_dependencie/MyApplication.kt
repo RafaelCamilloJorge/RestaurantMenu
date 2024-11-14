@@ -2,12 +2,11 @@ import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
-class App : Application() {
-
+class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidContext(this@App)
+            androidContext(this@MyApplication)
             modules(DependencyInitializer().appModule)
         }
     }
