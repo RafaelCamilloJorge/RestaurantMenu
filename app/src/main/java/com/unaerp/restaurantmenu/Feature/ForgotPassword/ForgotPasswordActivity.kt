@@ -5,7 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.unaerp.restaurantmenu.databinding.ActivityForgotPasswordBinding
-import com.unaerp.restaurantmenu.viewmodel.MainViewModel
+import com.unaerp.restaurantmenu.Feature.login.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ForgotPasswordActivity : AppCompatActivity() {

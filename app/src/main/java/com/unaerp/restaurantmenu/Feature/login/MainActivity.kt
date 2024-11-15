@@ -3,7 +3,6 @@ package com.unaerp.restaurantmenu.Feature.login
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -11,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import com.unaerp.restaurantmenu.Feature.forgotpassword.ForgotPasswordActivity
 import com.unaerp.restaurantmenu.Feature.menu.MenuActivity
 import com.unaerp.restaurantmenu.databinding.ActivityMainBinding
-import com.unaerp.restaurantmenu.viewmodel.MainViewModel
 import com.unaerp.restaurantmenu.R
 import com.unaerp.restaurantmenu.Feature.register.RegisterActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel

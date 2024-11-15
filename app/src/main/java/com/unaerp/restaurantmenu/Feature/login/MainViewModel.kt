@@ -1,4 +1,4 @@
-package com.unaerp.restaurantmenu.viewmodel
+package com.unaerp.restaurantmenu.Feature.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

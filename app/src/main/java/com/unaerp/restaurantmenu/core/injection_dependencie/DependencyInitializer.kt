@@ -13,7 +13,7 @@ import com.unaerp.restaurantmenu.core.repositories.user_data.impl.UserDataReposi
 import com.unaerp.restaurantmenu.core.use_case.auth.impl.AuthUseCaseImpl
 import com.unaerp.restaurantmenu.core.use_case.menu.impl.MenuUseCaseImpl
 import com.unaerp.restaurantmenu.core.use_case.order.impl.OrderUseCaseImpl
-import com.unaerp.restaurantmenu.viewmodel.MainViewModel
+import com.unaerp.restaurantmenu.Feature.login.MainViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
