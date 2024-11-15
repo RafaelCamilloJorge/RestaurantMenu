@@ -1,3 +1,5 @@
+package com.unaerp.restaurantmenu.core.injection_dependencie
+
 import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin

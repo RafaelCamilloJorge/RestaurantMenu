@@ -1,8 +1,6 @@
-import com.google.firebase.auth.FirebaseAuth
 import com.unaerp.restaurantmenu.Domain.UserAuth
 import com.unaerp.restaurantmenu.core.data_source.RemoteAuthenticationDataSource
 import com.unaerp.restaurantmenu.core.repositories.auth.AuthRepository
-import com.unaerp.restaurantmenu.core.errors.GenericError
 import com.unaerp.restaurantmenu.core.results.OnResult
 
 class AuthRepositoryImpl(private var remoteAuthenticationDataSourceImpl: RemoteAuthenticationDataSource) :

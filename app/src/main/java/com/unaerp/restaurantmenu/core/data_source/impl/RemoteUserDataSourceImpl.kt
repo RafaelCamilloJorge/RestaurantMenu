@@ -22,6 +22,5 @@ class RemoteUserDataSourceImpl(private var firestore: FirebaseFirestore) : Remot
         } catch (error: FirebaseFirestoreException) {
             OnResult.Error(GenericError(error.message))
         }
-
     }
 }

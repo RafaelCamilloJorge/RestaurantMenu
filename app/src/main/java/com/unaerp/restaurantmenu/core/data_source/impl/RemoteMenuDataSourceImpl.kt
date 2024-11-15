@@ -1,11 +1,8 @@
 package com.unaerp.restaurantmenu.core.data_source.impl
 
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.unaerp.restaurantmenu.Domain.MenuCategory
-import com.unaerp.restaurantmenu.Domain.MenuItem
 import com.unaerp.restaurantmenu.core.data_source.RemoteMenuDataSource
 import com.unaerp.restaurantmenu.core.errors.GenericError
 import com.unaerp.restaurantmenu.core.results.OnResult

@@ -51,12 +51,16 @@ class RemoteAuthenticationDataSourceImpl(private val auth: FirebaseAuth) :
     }
 
     override fun getTokenUser(): OnResult<String> {
-        try {
+        return try {
             val user: FirebaseUser? = auth.currentUser
-            val uid: String? = user?.uid
-            return OnResult.Success(uid)
+            val uid = user?.uid
+            if (uid != null) {
+                OnResult.Success(uid)
+            } else {
+                OnResult.Error(GenericError("Erro ao pegar o identificador do usuário"))
+            }
         } catch (e: FirebaseException) {
-            return OnResult.Error(GenericError(e.message))
+            OnResult.Error(GenericError(e.message))
         }
     }
 
