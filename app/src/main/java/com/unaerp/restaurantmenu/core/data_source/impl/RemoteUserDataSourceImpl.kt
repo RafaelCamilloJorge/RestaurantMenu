@@ -7,7 +7,7 @@ import com.unaerp.restaurantmenu.core.data_source.RemoteUserDataSource
 import com.unaerp.restaurantmenu.core.errors.GenericError
 import com.unaerp.restaurantmenu.core.results.OnResult
 
-class RemoteUserDataSourceImpl(private var firestore: FirebaseFirestore) : RemoteUserDataSource {
+class RemoteUserDataSourceImpl(private var db: FirebaseFirestore) : RemoteUserDataSource {
     override suspend fun createUser(userAuth: UserAuth, name: String): OnResult<Unit> {
         return try {
             val mapUser = mutableMapOf<String, Any>()
@@ -17,7 +17,7 @@ class RemoteUserDataSourceImpl(private var firestore: FirebaseFirestore) : Remot
             mapUser["email"] = userAuth.email
             mapUser["shopping_cart"] = emptyList<Map<String, Any>>()
 
-            firestore.collection("users").document(userAuth.uid).set(mapUser)
+            db.collection("users").document(userAuth.uid).set(mapUser)
             return OnResult.Success(Unit)
         } catch (error: FirebaseFirestoreException) {
             OnResult.Error(GenericError(error.message))

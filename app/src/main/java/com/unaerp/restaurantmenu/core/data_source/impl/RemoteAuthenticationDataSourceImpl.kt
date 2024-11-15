@@ -2,6 +2,7 @@ package com.unaerp.restaurantmenu.core.data_source.impl
 
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
 import com.unaerp.restaurantmenu.Domain.UserAuth
 import com.unaerp.restaurantmenu.core.data_source.RemoteAuthenticationDataSource
@@ -26,7 +27,7 @@ class RemoteAuthenticationDataSourceImpl(private val auth: FirebaseAuth) :
             } else {
                 OnResult.Error(GenericError("Erro ao pegar dados"))
             }
-        } catch (e: FirebaseException) {
+        } catch (e: FirebaseAuthException) {
             return OnResult.Error(GenericError(e.message))
         }
     }
@@ -45,7 +46,7 @@ class RemoteAuthenticationDataSourceImpl(private val auth: FirebaseAuth) :
                 )
             }
             return OnResult.Error(GenericError("Erro ao ler credenciais"))
-        } catch (error: Error) {
+        } catch (error: FirebaseAuthException) {
             return OnResult.Error(GenericError("Erro ao entrar, tente novamente"))
         }
     }
@@ -59,7 +60,7 @@ class RemoteAuthenticationDataSourceImpl(private val auth: FirebaseAuth) :
             } else {
                 OnResult.Error(GenericError("Erro ao pegar o identificador do usuário"))
             }
-        } catch (e: FirebaseException) {
+        } catch (e: FirebaseAuthException) {
             OnResult.Error(GenericError(e.message))
         }
     }

@@ -1,3 +1,5 @@
+package com.unaerp.restaurantmenu.core.repositories.auth.impl
+
 import com.unaerp.restaurantmenu.Domain.UserAuth
 import com.unaerp.restaurantmenu.core.data_source.RemoteAuthenticationDataSource
 import com.unaerp.restaurantmenu.core.repositories.auth.AuthRepository

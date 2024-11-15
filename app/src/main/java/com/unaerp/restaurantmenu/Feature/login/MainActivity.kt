@@ -8,8 +8,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.unaerp.restaurantmenu.databinding.ActivityMainBinding
 import com.unaerp.restaurantmenu.viewmodel.MainViewModel
-import androidx.lifecycle.lifecycleScope
-import com.unaerp.restaurantmenu.Feature.menu.MenuActivity
 import com.unaerp.restaurantmenu.R
 import com.unaerp.restaurantmenu.Feature.register.RegisterActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -48,15 +46,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.loginState.collect { result ->
-                result?.onSuccess {
-                    Toast.makeText(this@MainActivity, "Autenticação bem-sucedida.", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@MainActivity, MenuActivity::class.java))
-                }?.onFailure {
-                    Toast.makeText(this@MainActivity, "Falha na autenticação.", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+//        lifecycleScope.launchWhenStarted {
+//            viewModel.loginState.collect { result ->
+//                result?.onSuccess {
+//                    Toast.makeText(this@MainActivity, "Autenticação bem-sucedida.", Toast.LENGTH_SHORT).show()
+//                    startActivity(Intent(this@MainActivity, MenuActivity::class.java))
+//                }?.onFailure {
+//                    Toast.makeText(this@MainActivity, "Falha na autenticação.", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
     }
 }

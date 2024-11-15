@@ -1,10 +1,13 @@
 package com.unaerp.restaurantmenu.core.injection_dependencie
 
-import AuthRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.unaerp.restaurantmenu.core.data_source.impl.*
+import com.unaerp.restaurantmenu.core.data_source.impl.RemoteMenuDataSourceImpl
+import com.unaerp.restaurantmenu.core.data_source.impl.RemoteUserDataSourceImpl
+import com.unaerp.restaurantmenu.core.data_source.impl.RemoteOrderDataSourceImpl
+import com.unaerp.restaurantmenu.core.data_source.impl.RemoteAuthenticationDataSourceImpl
 import com.unaerp.restaurantmenu.core.repositories.menu.impl.MenuRepositoryImpl
+import com.unaerp.restaurantmenu.core.repositories.auth.impl.AuthRepositoryImpl
 import com.unaerp.restaurantmenu.core.repositories.order.impl.OrderRepositoryImpl
 import com.unaerp.restaurantmenu.core.repositories.user_data.impl.UserDataRepositoryImpl
 import com.unaerp.restaurantmenu.core.use_case.auth.impl.AuthUseCaseImpl
@@ -17,23 +20,23 @@ import org.koin.dsl.module
 class DependencyInitializer {
     val appModule = module {
         //ViewModels
-        viewModel { MainViewModel(get()) }
+        viewModel { MainViewModel(get<AuthUseCaseImpl>()) }
 
         //UseCases
-        single { MenuUseCaseImpl(get()) }
-        single { AuthUseCaseImpl(get(), get()) }
-        single { OrderUseCaseImpl(get(), get()) }
+        factory { MenuUseCaseImpl(get()) }
+        factory { AuthUseCaseImpl(get<AuthRepositoryImpl>(), get<UserDataRepositoryImpl>()) }
+        factory { OrderUseCaseImpl(get<AuthRepositoryImpl>(), get<OrderRepositoryImpl>()) }
 
         //Repositories
-        single { AuthRepositoryImpl(get()) }
-        single { OrderRepositoryImpl(get()) }
-        single { MenuRepositoryImpl(get()) }
-        single { UserDataRepositoryImpl(get()) }
+        factory { AuthRepositoryImpl(get<RemoteAuthenticationDataSourceImpl>()) }
+        factory { OrderRepositoryImpl(get<RemoteOrderDataSourceImpl>()) }
+        factory { MenuRepositoryImpl(get<RemoteMenuDataSourceImpl>()) }
+        factory { UserDataRepositoryImpl(get<RemoteUserDataSourceImpl>()) }
 
         //DataSource
-        single { RemoteUserDataSourceImpl(FirebaseFirestore.getInstance()) }
-        single { RemoteMenuDataSourceImpl(FirebaseFirestore.getInstance()) }
-        single { RemoteOrderDataSourceImpl(FirebaseFirestore.getInstance()) }
-        single { RemoteAuthenticationDataSourceImpl(FirebaseAuth.getInstance()) }
+        factory { RemoteUserDataSourceImpl(FirebaseFirestore.getInstance()) }
+        factory { RemoteMenuDataSourceImpl(FirebaseFirestore.getInstance()) }
+        factory { RemoteOrderDataSourceImpl(FirebaseFirestore.getInstance()) }
+        factory { RemoteAuthenticationDataSourceImpl(FirebaseAuth.getInstance()) }
     }
 }

@@ -1,15 +1,13 @@
 package com.unaerp.restaurantmenu.core.injection_dependencie
 
 import android.app.Application
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.GlobalContext.startKoin
+import org.koin.core.context.startKoin
 
 class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidContext(this@App)
             modules(DependencyInitializer().appModule)
         }
     }
