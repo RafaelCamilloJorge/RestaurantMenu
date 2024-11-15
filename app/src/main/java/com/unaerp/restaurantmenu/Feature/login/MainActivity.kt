@@ -3,11 +3,13 @@ package com.unaerp.restaurantmenu.Feature.login
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import com.unaerp.restaurantmenu.Feature.forgotpassword.ForgotPasswordActivity
+import com.unaerp.restaurantmenu.Feature.menu.MenuActivity
 import com.unaerp.restaurantmenu.databinding.ActivityMainBinding
 import com.unaerp.restaurantmenu.viewmodel.MainViewModel
 import com.unaerp.restaurantmenu.R
@@ -23,7 +25,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        enableEdgeToEdge()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -46,18 +47,22 @@ class MainActivity : AppCompatActivity() {
         binding.btnRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
+
+        binding.btnForgotPassword.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+        }
     }
 
     private fun observeViewModel() {
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.loginState.collect { result ->
-//                result?.onSuccess {
-//                    Toast.makeText(this@MainActivity, "Autenticação bem-sucedida.", Toast.LENGTH_SHORT).show()
-//                    startActivity(Intent(this@MainActivity, MenuActivity::class.java))
-//                }?.onFailure {
-//                    Toast.makeText(this@MainActivity, "Falha na autenticação.", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
+        lifecycleScope.launchWhenStarted {
+            viewModel.loginState.collect { result ->
+                result?.onSuccess {
+                    Toast.makeText(this@MainActivity, "Autenticação bem-sucedida.", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@MainActivity, MenuActivity::class.java))
+                }?.onFailure { error ->
+                    Toast.makeText(this@MainActivity, "Falha na autenticação: ${error.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }
