@@ -4,48 +4,14 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
-import com.unaerp.restaurantmenu.Domain.MenuCategory
 import com.unaerp.restaurantmenu.Domain.MenuItem
-import com.unaerp.restaurantmenu.core.data_source.FirestoreDataSource
-import com.unaerp.restaurantmenu.core.repositories.errors.GenericError
+import com.unaerp.restaurantmenu.core.data_source.RemoteOrderDataSource
+import com.unaerp.restaurantmenu.core.errors.GenericError
 import com.unaerp.restaurantmenu.core.results.OnResult
 import kotlinx.coroutines.tasks.await
 
-class FirestoreDataSourceImpl : FirestoreDataSource {
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-
-    override suspend fun createUser(id: String, email: String, name: String): OnResult<Unit> {
-        return try {
-            val docRefUser: DocumentReference = db.collection("users").document(id)
-            docRefUser.set(
-                mapOf(
-                    "id" to id,
-                    "email" to email,
-                    "name" to name,
-                    "shopping_cart" to arrayOf<Map<String, Any>>()
-                )
-            ).await()
-            OnResult.Success(Unit)
-        } catch (error: FirebaseFirestoreException) {
-            OnResult.Error(GenericError(error.message))
-        }
-    }
-
-    override suspend fun getMenu(): OnResult<List<MenuCategory>> {
-        try {
-            val listMenu: MutableList<MenuCategory> = mutableListOf()
-            db.collection("menu").get().addOnSuccessListener { result ->
-                for (doc in result) {
-                    listMenu.add(MenuCategory.fromCollection(doc))
-                }
-            }.await()
-            return OnResult.Success(listMenu)
-        } catch (error: FirebaseFirestoreException) {
-            return OnResult.Error(GenericError(error.message))
-        }
-    }
-
-    override suspend fun addItemInShoppingCar(item: MenuItem, idUser: String): OnResult<Unit> {
+class RemoteOrderDataSourceImpl(private val db: FirebaseFirestore) : RemoteOrderDataSource {
+      override suspend fun addItemInShoppingCar(item: MenuItem, idUser: String): OnResult<Unit> {
         try {
             val docRefUser: DocumentReference = db.collection("users").document(idUser)
             docRefUser.update("shopping_cart", FieldValue.arrayUnion(item.toMap())).await()
