@@ -11,6 +11,7 @@ class MenuDescriptionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         binding = ActivityMenuDescriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)

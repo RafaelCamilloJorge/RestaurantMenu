@@ -3,11 +3,13 @@ package com.unaerp.restaurantmenu.Feature.menu
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.unaerp.restaurantmenu.databinding.ActivityMenuBinding
 import com.unaerp.restaurantmenu.Domain.MenuCategory
 import com.unaerp.restaurantmenu.Domain.MenuItem
+import com.unaerp.restaurantmenu.Feature.cart.CartActivity
 import com.unaerp.restaurantmenu.Feature.menu_description.MenuDescriptionActivity
 import com.unaerp.restaurantmenu.R
 
@@ -21,6 +23,10 @@ class MenuActivity : AppCompatActivity() {
 
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.cart.setOnClickListener {
+            Toast.makeText(this, "Cart", Toast.LENGTH_SHORT).show()
+        }
 
         val teste = listOf(
             MenuCategory(1, "Entradas", emptyList()),
