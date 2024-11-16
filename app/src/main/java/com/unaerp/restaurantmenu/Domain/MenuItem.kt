@@ -1,20 +1,24 @@
 package com.unaerp.restaurantmenu.Domain
 
+import com.google.firebase.firestore.QueryDocumentSnapshot
+
 class MenuItem(
-    val id: Int,
+    val id: String,
     val name: String,
     val description: String,
     val price: Double,
-    val image: String
+    val image: String,
+    val type: String,
 ) {
     companion object {
-        fun fromCollection(item: Map<String, Any>): MenuItem {
+        fun fromCollection(item: QueryDocumentSnapshot): MenuItem {
             return MenuItem(
-                (item["id"] ?: 0) as Int,
-                (item["name"] ?: "").toString(),
-                (item["description"] ?: "") as String,
-                (item["price"] ?: 0.0) as Double,
-                (item["image"] ?: "") as String
+                item.id,
+                item.getString("name") ?: "",
+                item.getString("description") ?: "",
+                item.getDouble("price") ?: 0.0,
+                item.getString("image") ?: "",
+                item.getString("type") ?: ""
             )
         }
     }
@@ -26,6 +30,7 @@ class MenuItem(
             "description" to description,
             "price" to price,
             "image" to image,
+            "type" to type,
         )
     }
 }
