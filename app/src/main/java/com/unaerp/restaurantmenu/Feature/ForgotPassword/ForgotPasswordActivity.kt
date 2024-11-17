@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.unaerp.restaurantmenu.Feature.ForgotPassword.ForgotPasswordViewModel
 import com.unaerp.restaurantmenu.databinding.ActivityForgotPasswordBinding
-import com.unaerp.restaurantmenu.Feature.login.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ForgotPasswordActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityForgotPasswordBinding
-    private val viewModel: MainViewModel by viewModel()
+    private val viewModel: ForgotPasswordViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,17 +27,17 @@ class ForgotPasswordActivity : AppCompatActivity() {
             }
         }
 
-        observeViewModel()
+        observeViewModel(this)
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(context: ForgotPasswordActivity) {
         lifecycleScope.launchWhenStarted {
             viewModel.recoverPasswordState.collect { result ->
                 result?.onSuccess {
-                    Toast.makeText(this@ForgotPasswordActivity, "E-mail de recuperação enviado.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "E-mail de recuperação enviado.", Toast.LENGTH_SHORT).show()
                     finish()
                 }?.onFailure {
-                    Toast.makeText(this@ForgotPasswordActivity, "Erro ao enviar e-mail: ${it.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Erro ao enviar e-mail: ${it.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }

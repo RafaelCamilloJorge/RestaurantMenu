@@ -76,8 +76,11 @@ class RemoteAuthenticationDataSourceImpl(private val auth: FirebaseAuth) :
 
     override suspend fun forgotPassword(email: String): OnResult<Unit> {
         try {
-            auth.sendPasswordResetEmail(email)
-            return OnResult.Success(Unit)
+            val response = auth.sendPasswordResetEmail(email)
+            if (response.isSuccessful) {
+                return OnResult.Success(Unit)
+            }
+            return OnResult.Error(GenericError("Erro ao enviar email"))
         } catch (error: FirebaseException) {
             return OnResult.Error(GenericError(error.message))
         }

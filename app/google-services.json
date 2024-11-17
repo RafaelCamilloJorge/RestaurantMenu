@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "775539532196",
     "project_id": "restaurant-menu-60d88",
-    "storage_bucket": "restaurant-menu-60d88.appspot.com"
+    "storage_bucket": "restaurant-menu-60d88.firebasestorage.app"
   },
   "client": [
     {

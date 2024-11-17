@@ -2,6 +2,7 @@ package com.unaerp.restaurantmenu.core.injection_dependencie
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.unaerp.restaurantmenu.Feature.ForgotPassword.ForgotPasswordViewModel
 import com.unaerp.restaurantmenu.core.data_source.impl.RemoteMenuDataSourceImpl
 import com.unaerp.restaurantmenu.core.data_source.impl.RemoteUserDataSourceImpl
 import com.unaerp.restaurantmenu.core.data_source.impl.RemoteOrderDataSourceImpl
@@ -14,6 +15,7 @@ import com.unaerp.restaurantmenu.core.use_case.auth.impl.AuthUseCaseImpl
 import com.unaerp.restaurantmenu.core.use_case.menu.impl.MenuUseCaseImpl
 import com.unaerp.restaurantmenu.core.use_case.order.impl.OrderUseCaseImpl
 import com.unaerp.restaurantmenu.Feature.login.MainViewModel
+import com.unaerp.restaurantmenu.Feature.menu.MenuViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -21,9 +23,11 @@ class DependencyInitializer {
     val appModule = module {
         //ViewModels
         viewModel { MainViewModel(get<AuthUseCaseImpl>()) }
+        viewModel { MenuViewModel(get<MenuUseCaseImpl>()) }
+        viewModel { ForgotPasswordViewModel(get<AuthUseCaseImpl>()) }
 
         //UseCases
-        factory { MenuUseCaseImpl(get()) }
+        factory { MenuUseCaseImpl(get<MenuRepositoryImpl>()) }
         factory { AuthUseCaseImpl(get<AuthRepositoryImpl>(), get<UserDataRepositoryImpl>()) }
         factory { OrderUseCaseImpl(get<AuthRepositoryImpl>(), get<OrderRepositoryImpl>()) }
 

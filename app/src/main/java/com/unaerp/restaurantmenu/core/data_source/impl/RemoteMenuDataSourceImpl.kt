@@ -1,5 +1,6 @@
 package com.unaerp.restaurantmenu.core.data_source.impl
 
+import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.unaerp.restaurantmenu.Domain.MenuItem
@@ -13,11 +14,10 @@ class RemoteMenuDataSourceImpl(private val db: FirebaseFirestore) : RemoteMenuDa
         //retornar um Map que vai ter a chave como tipo do produto e o value é uma lista do produto
         try {
             val listMenu: MutableList<MenuItem> = mutableListOf()
-            db.collection("product").get().addOnSuccessListener { result ->
-                for (doc in result) {
-                    listMenu.add(MenuItem.fromCollection(doc))
-                }
-            }.await()
+            val allProducts = db.collection("product").get().await()
+            for (doc in allProducts) {
+                listMenu.add(MenuItem.fromCollection(doc))
+            }
 
             val mapTypeItems: MutableMap<String, MutableList<MenuItem>> = mutableMapOf()
 
@@ -30,15 +30,16 @@ class RemoteMenuDataSourceImpl(private val db: FirebaseFirestore) : RemoteMenuDa
                         mapTypeItems[it.type] = listType
                     }
                 } else {
-                    val listType: MutableList<MenuItem> = mutableListOf()
-                    listType.add(it)
-                    mapTypeItems[it.type] = listType
+                    mapTypeItems[it.type] = mutableListOf(it)
                 }
             }
 
-
             return OnResult.Success(mapTypeItems)
         } catch (error: FirebaseFirestoreException) {
+            return OnResult.Error(GenericError(error.message))
+        } catch (error: Exception) {
+            return OnResult.Error(GenericError(error.message))
+        } catch (error: FirebaseException) {
             return OnResult.Error(GenericError(error.message))
         }
     }
