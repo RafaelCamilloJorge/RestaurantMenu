@@ -2,7 +2,8 @@ package com.unaerp.restaurantmenu.Feature.menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.unaerp.restaurantmenu.Domain.MenuItem
+import com.unaerp.restaurantmenu.Domain.MenuCategory
+import com.unaerp.restaurantmenu.core.data_source.impl.RemoteMenuDataSourceImpl
 import com.unaerp.restaurantmenu.core.use_case.menu.MenuUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,23 +11,23 @@ import kotlinx.coroutines.launch
 
 class MenuViewModel(private var menuUseCaseImpl: MenuUseCase) : ViewModel() {
 
-    private val _recoverPasswordState = MutableStateFlow<Result<Map<String, List<MenuItem>>>?>(null)
-    val recoverPasswordState = _recoverPasswordState.asStateFlow()
+    private val _menuState = MutableStateFlow<Result<List<Any>>?>(null)
+    val menuState = _menuState.asStateFlow()
 
     fun getMenu() {
         viewModelScope.launch {
-            val response = menuUseCaseImpl.getMenu()
-            response.fold(onSuccess = { it ->
-//                it.forEach {
-//                    Log.v("type: ", it.key)
-//                    it.value.forEach { item ->
-//                        Log.v("product: ", item.name)
-//                    }
-//                }
+            val result = menuUseCaseImpl.getMenu()
+            result.fold(onSuccess = { map ->
+                val flatList = mutableListOf<Any>()
 
-                _recoverPasswordState.value = Result.success(it)
-            }, onError = {
-                _recoverPasswordState.value = Result.failure(it)
+                map.forEach { (category, items) ->
+                    flatList.add(MenuCategory(0L, category, items))
+                    flatList.addAll(items)
+                }
+
+                _menuState.value = Result.success(flatList)
+            }, onError = { error ->
+                _menuState.value = Result.failure(error)
             })
         }
     }

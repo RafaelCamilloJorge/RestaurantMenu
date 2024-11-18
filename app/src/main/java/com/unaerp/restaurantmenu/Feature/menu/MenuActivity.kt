@@ -22,58 +22,53 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var adapter: MenuRecyclerViewAdapter
     private val viewModel: MenuViewModel by viewModel()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.getMenu()
+        setupRecyclerView()
+
         observeViewModel()
 
+        viewModel.getMenu()
+
         binding.cart.setOnClickListener {
-            Toast.makeText(this, "Cart", Toast.LENGTH_SHORT).show()
-        }
-
-        val teste = listOf(
-            MenuCategory(1, "Entradas", emptyList()),
-            MenuItem("1", "Bruschetta", "Tomate e manjericão", 15.0, R.drawable.ic_launcher_background.toString(),""),
-            MenuItem("2", "Carpaccio", "Carne bovina com parmesão", 30.0, R.drawable.ic_launcher_background.toString(),""),
-            MenuCategory(2, "Pratos Principais", emptyList()),
-            MenuItem("3", "Bife à Parmegiana", "Com arroz e fritas", 45.0, R.drawable.ic_launcher_background.toString(),""),
-            MenuCategory(3, "Pratos Veganos", emptyList()),
-            MenuItem("3", "Arvore", "Arvore com pitadas de terra", 0.50, R.drawable.ic_launcher_background.toString(),""),
-            MenuItem("3", "Girassol", "Girassol com petalas de rosa", 5.0, R.drawable.ic_launcher_background.toString(),"")
-        )
-
-        adapter = MenuRecyclerViewAdapter(teste) { item ->
-            val intent = Intent(this, MenuDescriptionActivity::class.java)
-            intent.putExtra("name", (item as? MenuItem)?.name)
-            intent.putExtra("description", (item as? MenuItem)?.description)
-            intent.putExtra("price", (item as? MenuItem)?.price)
+            val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun setupRecyclerView() {
+        adapter = MenuRecyclerViewAdapter(emptyList()) { item ->
+            if (item is MenuItem) {
+                val intent = Intent(this, MenuDescriptionActivity::class.java)
+                intent.putExtra("name", item.name)
+                intent.putExtra("description", item.description)
+                intent.putExtra("price", item.price)
+                startActivity(intent)
+            }
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
-
-        adapter.updateList(teste)
     }
 
     private fun observeViewModel() {
         lifecycleScope.launchWhenStarted {
-            viewModel.recoverPasswordState.collect { result ->
-                result?.onSuccess {
-                    it
+            viewModel.menuState.collect { result ->
+                result?.onSuccess { flatList: List<Any> ->
+                    adapter.updateList(flatList)
                 }?.onFailure { error ->
                     Toast.makeText(
                         this@MenuActivity,
-                        "Falha na autenticação: ${error.message}",
+                        "Erro ao carregar menu: ${error.message}",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
         }
     }
+
 }
