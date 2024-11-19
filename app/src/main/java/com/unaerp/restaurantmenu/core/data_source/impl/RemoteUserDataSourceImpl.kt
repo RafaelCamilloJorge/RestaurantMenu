@@ -44,4 +44,15 @@ class RemoteUserDataSourceImpl(private var db: FirebaseFirestore) : RemoteUserDa
             OnResult.Error(GenericError(error.message))
         }
     }
+
+    override suspend fun finishPurchase(id: String): OnResult<Unit> {
+        return try {
+            db.collection("users").document(id)
+                .update("shopping_cart", emptyList<Map<String, Any>>())
+
+            return OnResult.Success(Unit)
+        } catch (error: FirebaseFirestoreException) {
+            OnResult.Error(GenericError(error.message))
+        }
+    }
 }

@@ -16,4 +16,6 @@ interface OrderUseCase {
     suspend fun getTotalValueOfShoppingCar(): OnResult<Double>
 
     suspend fun getMyCart(): OnResult<Cart>
+
+    suspend fun finishPurchase(): OnResult<Unit>
 }

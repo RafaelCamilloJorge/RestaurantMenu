@@ -15,4 +15,8 @@ class UserDataRepositoryImpl(private var remoteUserDataSourceImpl: RemoteUserDat
     override suspend fun getCardUser(id: String): OnResult<List<ResponseShoppingCartItem>> {
         return remoteUserDataSourceImpl.getCartUser(id)
     }
+
+    override suspend fun finishPurchase(id:String): OnResult<Unit> {
+        return remoteUserDataSourceImpl.finishPurchase(id)
+    }
 }

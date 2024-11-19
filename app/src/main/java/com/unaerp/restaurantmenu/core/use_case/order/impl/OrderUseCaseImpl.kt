@@ -139,4 +139,27 @@ class OrderUseCaseImpl(
             return OnResult.Error(GenericError(error.message))
         }
     }
+
+    override suspend fun finishPurchase(): OnResult<Unit> {
+        try {
+            val responseGetMyToken = authRepository.getTokenUser()
+
+            if (responseGetMyToken is OnResult.Error) return OnResult.Error(responseGetMyToken.exception)
+
+            if (responseGetMyToken is OnResult.Success) {
+                val responseFinishPurchase =
+                    userDataRepository.finishPurchase(responseGetMyToken.data)
+
+                if (responseFinishPurchase is OnResult.Error) {
+                    return OnResult.Error(responseFinishPurchase.exception)
+                }
+                if (responseFinishPurchase is OnResult.Success) {
+                    return OnResult.Success(Unit)
+                }
+            }
+            return OnResult.Error(GenericError("Erro ao finalizar pedido"))
+        } catch (error: Exception) {
+            return OnResult.Error(GenericError(error.message))
+        }
+    }
 }
