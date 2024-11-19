@@ -10,23 +10,23 @@ import kotlinx.coroutines.launch
 
 class MenuViewModel(private var menuUseCaseImpl: MenuUseCase) : ViewModel() {
 
-    private val _recoverPasswordState = MutableStateFlow<Result<Map<String, List<ResponseMenuItem>>>?>(null)
-    val recoverPasswordState = _recoverPasswordState.asStateFlow()
+    private val _menuState = MutableStateFlow<Result<List<Any>>?>(null)
+    val menuState = _menuState.asStateFlow()
 
     fun getMenu() {
         viewModelScope.launch {
-            val response = menuUseCaseImpl.getMenu()
-            response.fold(onSuccess = { it ->
-//                it.forEach {
-//                    Log.v("type: ", it.key)
-//                    it.value.forEach { item ->
-//                        Log.v("product: ", item.name)
-//                    }
+            val result = menuUseCaseImpl.getMenu()
+            result.fold(onSuccess = { map ->
+                val flatList = mutableListOf<Any>()
+
+//                map.forEach { (category, items) ->
+//                    flatList.add(MenuCategory(0L, category, items))
+//                    flatList.addAll(items)
 //                }
 
-                _recoverPasswordState.value = Result.success(it)
-            }, onError = {
-                _recoverPasswordState.value = Result.failure(it)
+                _menuState.value = Result.success(flatList)
+            }, onError = { error ->
+                _menuState.value = Result.failure(error)
             })
         }
     }

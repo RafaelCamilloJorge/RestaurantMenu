@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.unaerp.restaurantmenu.databinding.ActivityMenuBinding
 import com.unaerp.restaurantmenu.Domain.MenuCategory
 import com.unaerp.restaurantmenu.Domain.ResponseMenuItem
+import com.unaerp.restaurantmenu.Feature.cart.CartActivity
 import com.unaerp.restaurantmenu.Feature.menu_description.MenuDescriptionActivity
 import com.unaerp.restaurantmenu.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,11 +27,14 @@ class MenuActivity : AppCompatActivity() {
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.getMenu()
+//        setupRecyclerView()
+
         observeViewModel()
+        viewModel.getMenu()
 
         binding.cart.setOnClickListener {
-            Toast.makeText(this, "Cart", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, CartActivity::class.java)
+            startActivity(intent)
         }
 
         val teste = listOf(
@@ -52,21 +56,34 @@ class MenuActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+//        private fun setupRecyclerView() {
+//            adapter = MenuRecyclerViewAdapter(emptyList()) { item ->
+//                if (item is MenuItem) {
+//                    val intent = Intent(this, MenuDescriptionActivity::class.java)
+//                    intent.putExtra("name", item.name)
+//                    intent.putExtra("description", item.description)
+//                    intent.putExtra("price", item.price)
+//                    startActivity(intent)
+//                }
+//            }
+//
+//            binding.recyclerView.layoutManager = LinearLayoutManager(this)
+//            binding.recyclerView.adapter = adapter
+//        }
+
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
-
-        adapter.updateList(teste)
     }
 
     private fun observeViewModel() {
         lifecycleScope.launchWhenStarted {
-            viewModel.recoverPasswordState.collect { result ->
-                result?.onSuccess {
-                    it
+            viewModel.menuState.collect { result ->
+                result?.onSuccess { flatList: List<Any> ->
+                    adapter.updateList(flatList)
                 }?.onFailure { error ->
                     Toast.makeText(
                         this@MenuActivity,
-                        "Falha na autenticação: ${error.message}",
+                        "Erro ao carregar menu: ${error.message}",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
