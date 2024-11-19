@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.unaerp.restaurantmenu.databinding.ActivityForgotPasswordBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class ForgotPasswordActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityForgotPasswordBinding
