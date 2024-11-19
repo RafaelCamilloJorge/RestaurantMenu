@@ -11,21 +11,22 @@ class CartAdapter(
     private val onUpdateTotal: () -> Unit
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
-    inner class CartViewHolder(private val binding: ItemCartBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CartViewHolder(private val binding: ItemCartBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(cartItem: CartItem) {
             binding.itemName.text = cartItem.name
-            binding.itemPrice.text = "R$ %.2f".format(cartItem.price)
+            binding.itemPrice.text = "R$ %.2f".format(cartItem.unitPrice)
             binding.itemQuantity.text = cartItem.quantity.toString()
 
             binding.increaseButton.setOnClickListener {
-                cartItem.quantity++
+//                cartItem.quantity++
                 binding.itemQuantity.text = cartItem.quantity.toString()
                 onUpdateTotal()
             }
 
             binding.decreaseButton.setOnClickListener {
                 if (cartItem.quantity > 1) {
-                    cartItem.quantity--
+//                    cartItem.quantity--
                     binding.itemQuantity.text = cartItem.quantity.toString()
                     onUpdateTotal()
                 }
@@ -45,6 +46,7 @@ class CartAdapter(
     override fun getItemCount(): Int = cartItems.size
 
     fun getTotalPrice(): Double {
-        return cartItems.sumOf { it.price * it.quantity }
+//        return cartItems.sumOf { it.price * it.quantity }
+        return 12.34
     }
 }

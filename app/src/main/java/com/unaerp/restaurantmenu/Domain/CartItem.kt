@@ -1,8 +1,15 @@
 package com.unaerp.restaurantmenu.Domain
 
 data class CartItem(
-    val id: Int,
+    val id: String,
     val name: String,
-    val price: Double,
-    var quantity: Int = 1
-)
+    val description: String,
+    val unitPrice: Double,
+    val image: String,
+    val type: String,
+    val quantity: Int
+) {
+    fun totalPrice(): Double {
+        return this.quantity * this.unitPrice
+    }
+}

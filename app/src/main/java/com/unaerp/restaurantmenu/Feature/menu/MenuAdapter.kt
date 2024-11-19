@@ -7,7 +7,7 @@ import androidx.viewbinding.ViewBinding
 import com.unaerp.restaurantmenu.databinding.ItemCategoryBinding
 import com.unaerp.restaurantmenu.databinding.ItemMenuItemBinding
 import com.unaerp.restaurantmenu.Domain.MenuCategory
-import com.unaerp.restaurantmenu.Domain.MenuItem
+import com.unaerp.restaurantmenu.Domain.ResponseMenuItem
 import com.unaerp.restaurantmenu.R
 
 class MenuRecyclerViewAdapter(
@@ -44,7 +44,7 @@ class MenuRecyclerViewAdapter(
                 holder.binding.categoryTitle.text = category.title
             }
             is MenuRecyclerViewHolder.ItemViewHolder -> {
-                val menuItem = item as MenuItem
+                val menuItem = item as ResponseMenuItem
                 holder.binding.itemName.text = menuItem.name
                 holder.binding.itemImage.setImageResource(R.drawable.ic_launcher_foreground)
                 holder.binding.itemPrice.text = menuItem.price.toString()
@@ -56,7 +56,7 @@ class MenuRecyclerViewAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (itemList[position]) {
             is MenuCategory -> TIPO_CATEGORIA
-            is MenuItem -> TIPO_ITEM
+            is ResponseMenuItem -> TIPO_ITEM
             else -> throw IllegalArgumentException("Tipo de item desconhecido")
         }
     }

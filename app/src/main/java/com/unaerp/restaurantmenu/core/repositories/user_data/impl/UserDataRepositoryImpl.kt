@@ -1,5 +1,6 @@
 package com.unaerp.restaurantmenu.core.repositories.user_data.impl
 
+import com.unaerp.restaurantmenu.Domain.ResponseShoppingCartItem
 import com.unaerp.restaurantmenu.Domain.UserAuth
 import com.unaerp.restaurantmenu.core.data_source.impl.RemoteUserDataSourceImpl
 import com.unaerp.restaurantmenu.core.repositories.user_data.UserDataRepository
@@ -9,5 +10,9 @@ class UserDataRepositoryImpl(private var remoteUserDataSourceImpl: RemoteUserDat
     UserDataRepository {
     override suspend fun createUser(userAuth: UserAuth, name: String): OnResult<Unit> {
         return remoteUserDataSourceImpl.createUser(userAuth, name)
+    }
+
+    override suspend fun getCardUser(id: String): OnResult<List<ResponseShoppingCartItem>> {
+        return remoteUserDataSourceImpl.getCartUser(id)
     }
 }

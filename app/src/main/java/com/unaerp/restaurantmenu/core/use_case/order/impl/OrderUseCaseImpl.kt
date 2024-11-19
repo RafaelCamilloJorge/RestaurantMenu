@@ -1,16 +1,23 @@
 package com.unaerp.restaurantmenu.core.use_case.order.impl
 
-import com.unaerp.restaurantmenu.Domain.MenuItem
+import com.unaerp.restaurantmenu.Domain.Cart
+import com.unaerp.restaurantmenu.Domain.CartItem
+import com.unaerp.restaurantmenu.Domain.ResponseMenuItem
 import com.unaerp.restaurantmenu.core.errors.GenericError
 import com.unaerp.restaurantmenu.core.repositories.auth.AuthRepository
+import com.unaerp.restaurantmenu.core.repositories.menu.MenuRepository
 import com.unaerp.restaurantmenu.core.repositories.order.OrderRepository
+import com.unaerp.restaurantmenu.core.repositories.user_data.UserDataRepository
 import com.unaerp.restaurantmenu.core.results.OnResult
 import com.unaerp.restaurantmenu.core.use_case.order.OrderUseCase
 
 class OrderUseCaseImpl(
-    private var authRepository: AuthRepository, private var orderRepository: OrderRepository
+    private var authRepository: AuthRepository,
+    private var orderRepository: OrderRepository,
+    private var userDataRepository: UserDataRepository,
+    private var menuRepository: MenuRepository,
 ) : OrderUseCase {
-    override suspend fun addItemInShoppingCar(item: MenuItem): OnResult<Unit> {
+    override suspend fun addItemInShoppingCar(item: ResponseMenuItem): OnResult<Unit> {
         try {
             val responseGetUserToken = authRepository.getTokenUser()
 
@@ -83,5 +90,53 @@ class OrderUseCaseImpl(
             return OnResult.Error(GenericError(error.message))
         }
         return OnResult.Error(GenericError("Erro ao pegar valor total do carrinho"))
+    }
+
+    override suspend fun getMyCart(): OnResult<Cart> {
+        try {
+            val cart: Cart = Cart.initialCart()
+
+            val responseGetMyToken = authRepository.getTokenUser()
+
+            if (responseGetMyToken is OnResult.Error) return OnResult.Error(responseGetMyToken.exception)
+
+            if (responseGetMyToken is OnResult.Success) {
+                val responseCartUser = userDataRepository.getCardUser(responseGetMyToken.data)
+                val responseMenu = menuRepository.getMenu()
+
+                if (responseCartUser is OnResult.Error) return OnResult.Error(responseCartUser.exception)
+
+                if (responseMenu is OnResult.Error) return OnResult.Error(responseMenu.exception)
+
+                if (responseMenu is OnResult.Success && responseCartUser is OnResult.Success) {
+                    for ((category, menuItems) in responseMenu.data) {
+                        println("Categoria: $category")
+                        for (menuItem in menuItems) {
+                            responseCartUser.data.forEach { itemCart ->
+                                if (itemCart.id == menuItem.id) {
+                                    cart.items.add(
+                                        CartItem(
+                                            menuItem.id,
+                                            menuItem.name,
+                                            menuItem.description,
+                                            menuItem.price,
+                                            menuItem.image,
+                                            menuItem.type,
+                                            itemCart.quantity
+                                        )
+                                    )
+                                    cart.addValue(itemCart.quantity * menuItem.price)
+                                    println(itemCart.quantity * menuItem.price)
+                                }
+                            }
+                            println("- ${menuItem.name}: R$ ${menuItem.price}")
+                        }
+                    }
+                }
+            }
+            return OnResult.Success(cart)
+        } catch (error: Exception) {
+            return OnResult.Error(GenericError(error.message))
+        }
     }
 }

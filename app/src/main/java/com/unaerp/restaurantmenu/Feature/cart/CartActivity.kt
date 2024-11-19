@@ -5,18 +5,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.unaerp.restaurantmenu.Domain.CartItem
 import com.unaerp.restaurantmenu.databinding.ActivityCartBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CartActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCartBinding
     private lateinit var cartAdapter: CartAdapter
+    private val viewModel: CartViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val teste = MutableList(10) { CartItem(1, "teste", 10.0, 1) }
+        val teste = mutableListOf<CartItem>()
+
+//            MutableList(10) { CartItem(1, "teste", 10.0, 1) }
 
         cartAdapter = CartAdapter(teste, ::updateTotal)
         binding.cartRecyclerView.layoutManager = LinearLayoutManager(this)

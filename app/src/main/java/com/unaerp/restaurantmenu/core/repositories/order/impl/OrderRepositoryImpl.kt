@@ -1,13 +1,13 @@
 package com.unaerp.restaurantmenu.core.repositories.order.impl
 
-import com.unaerp.restaurantmenu.Domain.MenuItem
+import com.unaerp.restaurantmenu.Domain.ResponseMenuItem
 import com.unaerp.restaurantmenu.core.data_source.RemoteOrderDataSource
 import com.unaerp.restaurantmenu.core.repositories.order.OrderRepository
 import com.unaerp.restaurantmenu.core.results.OnResult
 
 class OrderRepositoryImpl(private var remoteOrderDataSource: RemoteOrderDataSource) :
     OrderRepository {
-    override suspend fun addItemInShoppingCar(item: MenuItem, idUser: String): OnResult<Unit> {
+    override suspend fun addItemInShoppingCar(item: ResponseMenuItem, idUser: String): OnResult<Unit> {
         return remoteOrderDataSource.addItemInShoppingCar(item, idUser)
     }
 

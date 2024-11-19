@@ -1,10 +1,9 @@
-package com.unaerp.restaurantmenu.Feature.forgotpassword
+package com.unaerp.restaurantmenu.Feature.ForgotPassword
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.unaerp.restaurantmenu.Feature.ForgotPassword.ForgotPasswordViewModel
 import com.unaerp.restaurantmenu.databinding.ActivityForgotPasswordBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

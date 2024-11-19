@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import com.unaerp.restaurantmenu.Feature.forgotpassword.ForgotPasswordActivity
+import com.unaerp.restaurantmenu.Feature.ForgotPassword.ForgotPasswordActivity
 import com.unaerp.restaurantmenu.Feature.menu.MenuActivity
 import com.unaerp.restaurantmenu.databinding.ActivityMainBinding
 import com.unaerp.restaurantmenu.R

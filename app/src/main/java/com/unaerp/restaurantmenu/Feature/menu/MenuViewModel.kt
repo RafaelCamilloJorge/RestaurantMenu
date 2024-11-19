@@ -2,7 +2,7 @@ package com.unaerp.restaurantmenu.Feature.menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.unaerp.restaurantmenu.Domain.MenuItem
+import com.unaerp.restaurantmenu.Domain.ResponseMenuItem
 import com.unaerp.restaurantmenu.core.use_case.menu.MenuUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class MenuViewModel(private var menuUseCaseImpl: MenuUseCase) : ViewModel() {
 
-    private val _recoverPasswordState = MutableStateFlow<Result<Map<String, List<MenuItem>>>?>(null)
+    private val _recoverPasswordState = MutableStateFlow<Result<Map<String, List<ResponseMenuItem>>>?>(null)
     val recoverPasswordState = _recoverPasswordState.asStateFlow()
 
     fun getMenu() {

@@ -4,14 +4,14 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
-import com.unaerp.restaurantmenu.Domain.MenuItem
+import com.unaerp.restaurantmenu.Domain.ResponseMenuItem
 import com.unaerp.restaurantmenu.core.data_source.RemoteOrderDataSource
 import com.unaerp.restaurantmenu.core.errors.GenericError
 import com.unaerp.restaurantmenu.core.results.OnResult
 import kotlinx.coroutines.tasks.await
 
 class RemoteOrderDataSourceImpl(private val db: FirebaseFirestore) : RemoteOrderDataSource {
-      override suspend fun addItemInShoppingCar(item: MenuItem, idUser: String): OnResult<Unit> {
+      override suspend fun addItemInShoppingCar(item: ResponseMenuItem, idUser: String): OnResult<Unit> {
         try {
             val docRefUser: DocumentReference = db.collection("users").document(idUser)
             docRefUser.update("shopping_cart", FieldValue.arrayUnion(item.toMap())).await()
