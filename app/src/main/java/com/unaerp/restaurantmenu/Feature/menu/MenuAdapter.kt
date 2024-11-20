@@ -47,7 +47,7 @@ class MenuRecyclerViewAdapter(
                 val menuItem = item as ResponseMenuItem
                 holder.binding.itemName.text = menuItem.name
                 holder.binding.itemImage.setImageResource(R.drawable.ic_launcher_foreground)
-                holder.binding.itemPrice.text = menuItem.price.toString()
+                holder.binding.itemPrice.text = "R$ %.2f".format(menuItem.price)
                 holder.itemView.setOnClickListener { onClick(item) }
             }
         }
