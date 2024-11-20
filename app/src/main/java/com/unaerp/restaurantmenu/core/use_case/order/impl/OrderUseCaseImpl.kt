@@ -17,17 +17,25 @@ class OrderUseCaseImpl(
     private var userDataRepository: UserDataRepository,
     private var menuRepository: MenuRepository,
 ) : OrderUseCase {
-    override suspend fun addItemInShoppingCar(item: ResponseMenuItem): OnResult<Unit> {
+    override suspend fun itemInShoppingCar(
+        item: ResponseMenuItem, quantity: Int
+    ): OnResult<Unit> {
         try {
             val responseGetUserToken = authRepository.getTokenUser()
 
-            if (responseGetUserToken is OnResult.Success) {
-                return orderRepository.addItemInShoppingCar(item, responseGetUserToken.data)
-            }
-            if (responseGetUserToken is OnResult.Error) {
-                return OnResult.Error(responseGetUserToken.exception)
-            }
+            if (responseGetUserToken is OnResult.Error) return OnResult.Error(responseGetUserToken.exception)
 
+            if (responseGetUserToken is OnResult.Success) {
+                val responseAddItem = userDataRepository.setQuantityProduct(
+                    responseGetUserToken.data, item.id, quantity
+                )
+                if (responseAddItem is OnResult.Success) {
+                    return OnResult.Success(responseAddItem.data)
+                }
+                if (responseAddItem is OnResult.Error) {
+                    return OnResult.Error(responseAddItem.exception)
+                }
+            }
         } catch (error: Exception) {
             return OnResult.Error(GenericError(error.message))
         }
@@ -49,27 +57,6 @@ class OrderUseCaseImpl(
             return OnResult.Error(GenericError(error.message))
         }
         return OnResult.Error(GenericError("Erro ao remover item ao carrinho"))
-    }
-
-    override suspend fun editQuantityOfItemInShoppingCar(
-        idItem: String, newQuantity: Int
-    ): OnResult<Unit> {
-        try {
-            val responseGetUserToken = authRepository.getTokenUser()
-
-            if (responseGetUserToken is OnResult.Success) {
-                return orderRepository.editQuantityOfItemInShoppingCar(
-                    idItem, newQuantity, responseGetUserToken.data
-                )
-            }
-            if (responseGetUserToken is OnResult.Error) {
-                return OnResult.Error(responseGetUserToken.exception)
-            }
-
-        } catch (error: Exception) {
-            return OnResult.Error(GenericError(error.message))
-        }
-        return OnResult.Error(GenericError("Erro ao adicionar item ao carrinho"))
     }
 
     override suspend fun getTotalValueOfShoppingCar(

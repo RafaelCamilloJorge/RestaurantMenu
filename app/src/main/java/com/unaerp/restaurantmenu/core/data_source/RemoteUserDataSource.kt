@@ -11,4 +11,6 @@ interface RemoteUserDataSource {
     suspend fun getCartUser(uid: String): OnResult<List<ResponseShoppingCartItem>>
 
     suspend fun finishPurchase(id: String): OnResult<Unit>
+
+    suspend fun setProductCart(idUser: String, idProduct: String, quantity: Int): OnResult<Unit>
 }

@@ -1,4 +1,4 @@
-package com.unaerp.restaurantmenu.Feature.ForgotPassword
+package com.unaerp.restaurantmenu.Feature.forgotpassword
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

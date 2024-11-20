@@ -10,4 +10,6 @@ interface UserDataRepository {
     suspend fun getCardUser(id: String): OnResult<List<ResponseShoppingCartItem>>
 
     suspend fun finishPurchase(id: String): OnResult<Unit>
+
+    suspend fun setQuantityProduct(idUser: String, idProduct: String, quantity: Int): OnResult<Unit>
 }

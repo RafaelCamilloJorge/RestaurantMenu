@@ -11,7 +11,7 @@ import kotlinx.coroutines.tasks.await
 
 class RemoteUserDataSourceImpl(private var db: FirebaseFirestore) : RemoteUserDataSource {
     override suspend fun createUser(userAuth: UserAuth, name: String): OnResult<Unit> {
-        return try {
+        try {
             val mapUser = mutableMapOf<String, Any>()
 
             mapUser["id"] = userAuth.uid
@@ -22,12 +22,12 @@ class RemoteUserDataSourceImpl(private var db: FirebaseFirestore) : RemoteUserDa
             db.collection("users").document(userAuth.uid).set(mapUser)
             return OnResult.Success(Unit)
         } catch (error: FirebaseFirestoreException) {
-            OnResult.Error(GenericError(error.message))
+            return OnResult.Error(GenericError(error.message))
         }
     }
 
     override suspend fun getCartUser(uid: String): OnResult<List<ResponseShoppingCartItem>> {
-        return try {
+        try {
             val listShoppingCartItem = mutableListOf<ResponseShoppingCartItem>()
 
             val response = db.collection("users").document(uid).get().await()
@@ -41,7 +41,7 @@ class RemoteUserDataSourceImpl(private var db: FirebaseFirestore) : RemoteUserDa
 
             return OnResult.Success(listShoppingCartItem)
         } catch (error: FirebaseFirestoreException) {
-            OnResult.Error(GenericError(error.message))
+            return OnResult.Error(GenericError(error.message))
         }
     }
 
@@ -53,6 +53,41 @@ class RemoteUserDataSourceImpl(private var db: FirebaseFirestore) : RemoteUserDa
             return OnResult.Success(Unit)
         } catch (error: FirebaseFirestoreException) {
             OnResult.Error(GenericError(error.message))
+        }
+    }
+
+    override suspend fun setProductCart(
+        idUser: String, idProduct: String, quantity: Int
+    ): OnResult<Unit> {
+        try {
+            val responseGetCart = getCartUser(idUser)
+
+            if (responseGetCart is OnResult.Error) return OnResult.Error(responseGetCart.exception)
+
+            if (responseGetCart is OnResult.Success) {
+                val listCart: MutableList<ResponseShoppingCartItem> =
+                    responseGetCart.data.toMutableList()
+
+                var productExist: Boolean = false
+                listCart.forEach {
+                    if (it.id == idProduct) {
+                        productExist = true
+                        it.quantity = quantity
+                    }
+                }
+                if (!productExist) {
+                    listCart.add(ResponseShoppingCartItem(idProduct, quantity))
+                }
+
+                val listCartMapped: MutableList<Map<String, Any>> = mutableListOf()
+
+                listCart.forEach { listCartMapped.add(it.toMap()) }
+
+                db.collection("users").document(idUser).update("shopping_cart", listCartMapped)
+            }
+            return OnResult.Success(Unit)
+        } catch (error: FirebaseFirestoreException) {
+            return OnResult.Error(GenericError(error.message))
         }
     }
 }

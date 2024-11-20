@@ -29,6 +29,4 @@ class MainViewModel(private val authUseCaseImpl: AuthUseCase) : ViewModel() {
             }
         }
     }
-
-
 }

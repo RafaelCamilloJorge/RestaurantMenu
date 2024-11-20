@@ -1,13 +1,15 @@
-package com.unaerp.restaurantmenu.Feature.menu_description
+package com.unaerp.restaurantmenu.Feature.menudescription
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.unaerp.restaurantmenu.databinding.ActivityMenuDescriptionBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MenuDescriptionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMenuDescriptionBinding
+    private val menuDescriptionViewModel: MenuDescriptionViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

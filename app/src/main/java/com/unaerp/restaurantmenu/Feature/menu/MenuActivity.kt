@@ -2,19 +2,15 @@ package com.unaerp.restaurantmenu.Feature.menu
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.unaerp.restaurantmenu.databinding.ActivityMenuBinding
-import com.unaerp.restaurantmenu.Domain.MenuCategory
 import com.unaerp.restaurantmenu.Domain.ResponseMenuItem
 import com.unaerp.restaurantmenu.Feature.cart.CartActivity
-import com.unaerp.restaurantmenu.Feature.menu_description.MenuDescriptionActivity
-import com.unaerp.restaurantmenu.R
+import com.unaerp.restaurantmenu.Feature.menudescription.MenuDescriptionActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class MenuActivity : AppCompatActivity() {
 

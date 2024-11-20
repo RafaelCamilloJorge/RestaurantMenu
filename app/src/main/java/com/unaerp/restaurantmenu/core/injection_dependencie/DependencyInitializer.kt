@@ -3,7 +3,7 @@ package com.unaerp.restaurantmenu.core.injection_dependencie
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.unaerp.restaurantmenu.Feature.cart.CartViewModel
-import com.unaerp.restaurantmenu.Feature.ForgotPassword.ForgotPasswordViewModel
+import com.unaerp.restaurantmenu.Feature.forgotpassword.ForgotPasswordViewModel
 import com.unaerp.restaurantmenu.core.data_source.impl.RemoteMenuDataSourceImpl
 import com.unaerp.restaurantmenu.core.data_source.impl.RemoteUserDataSourceImpl
 import com.unaerp.restaurantmenu.core.data_source.impl.RemoteOrderDataSourceImpl
@@ -17,6 +17,7 @@ import com.unaerp.restaurantmenu.core.use_case.menu.impl.MenuUseCaseImpl
 import com.unaerp.restaurantmenu.core.use_case.order.impl.OrderUseCaseImpl
 import com.unaerp.restaurantmenu.Feature.login.MainViewModel
 import com.unaerp.restaurantmenu.Feature.menu.MenuViewModel
+import com.unaerp.restaurantmenu.Feature.menudescription.MenuDescriptionViewModel
 import com.unaerp.restaurantmenu.Feature.register.RegisterViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -29,6 +30,7 @@ class DependencyInitializer {
         viewModel { MenuViewModel(get<MenuUseCaseImpl>()) }
         viewModel { CartViewModel(get<OrderUseCaseImpl>()) }
         viewModel { ForgotPasswordViewModel(get<AuthUseCaseImpl>()) }
+        viewModel { MenuDescriptionViewModel(get<OrderUseCaseImpl>()) }
 
         //UseCases
         factory { MenuUseCaseImpl(get<MenuRepositoryImpl>()) }

@@ -10,4 +10,12 @@ class ResponseShoppingCartItem(
             )
         }
     }
+
+    fun toMap(): Map<String, Any> {
+        var map: MutableMap<String, Any> = mutableMapOf()
+
+        map.put("id", this.id)
+        map.put("quantity", this.quantity)
+        return map
+    }
 }

@@ -11,16 +11,6 @@ import com.unaerp.restaurantmenu.core.results.OnResult
 import kotlinx.coroutines.tasks.await
 
 class RemoteOrderDataSourceImpl(private val db: FirebaseFirestore) : RemoteOrderDataSource {
-      override suspend fun addItemInShoppingCar(item: ResponseMenuItem, idUser: String): OnResult<Unit> {
-        try {
-            val docRefUser: DocumentReference = db.collection("users").document(idUser)
-            docRefUser.update("shopping_cart", FieldValue.arrayUnion(item.toMap())).await()
-            return OnResult.Success(Unit)
-        } catch (error: FirebaseFirestoreException) {
-            return OnResult.Error(GenericError(error.message))
-        }
-    }
-
     override suspend fun removeItemInShoppingCar(idItem: String, idUser: String): OnResult<Unit> {
         try {
             val docRefUser: DocumentReference = db.collection("users").document(idUser)
@@ -33,27 +23,6 @@ class RemoteOrderDataSourceImpl(private val db: FirebaseFirestore) : RemoteOrder
             return OnResult.Success(Unit)
         } catch (error: FirebaseFirestoreException) {
             return OnResult.Error(GenericError("Erro ao remover item"))
-        }
-    }
-
-    override suspend fun editQuantityOfItemInShoppingCar(
-        idItem: String, newQuantity: Int, idUser: String
-    ): OnResult<Unit> {
-        try {
-            val docRefUser: DocumentReference = db.collection("users").document(idUser)
-            docRefUser.get().addOnCompleteListener { doc ->
-                val shoppingCar: MutableList<MutableMap<String, Any>> =
-                    doc.result.get("shopping_cart") as MutableList<MutableMap<String, Any>>
-                shoppingCar.forEach { item ->
-                    if (item.getValue("id") == idItem) {
-                        item["quantity"] = newQuantity
-                    }
-                }
-                docRefUser.update("shopping_cart", shoppingCar)
-            }
-            return OnResult.Success(Unit)
-        } catch (error: FirebaseFirestoreException) {
-            return OnResult.Error(GenericError(error.message))
         }
     }
 

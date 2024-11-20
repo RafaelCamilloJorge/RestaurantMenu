@@ -1,4 +1,4 @@
-package com.unaerp.restaurantmenu.Feature.ForgotPassword
+package com.unaerp.restaurantmenu.Feature.forgotpassword
 
 import android.os.Bundle
 import android.widget.Toast
