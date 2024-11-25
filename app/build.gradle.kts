@@ -54,6 +54,9 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
 
+    //Image
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
     //DI
     implementation("io.insert-koin:koin-android:3.1.2")
 
@@ -62,4 +65,5 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-storage-ktx")
 }

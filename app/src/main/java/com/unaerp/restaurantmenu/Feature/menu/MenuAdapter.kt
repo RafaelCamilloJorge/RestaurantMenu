@@ -4,6 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.bumptech.glide.Glide
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import com.unaerp.restaurantmenu.databinding.ItemCategoryBinding
 import com.unaerp.restaurantmenu.databinding.ItemMenuItemBinding
 import com.unaerp.restaurantmenu.Domain.MenuCategory
@@ -48,6 +52,17 @@ class MenuRecyclerViewAdapter(
                 holder.binding.itemName.text = menuItem.name
                 holder.binding.itemImage.setImageResource(R.drawable.ic_launcher_foreground)
                 holder.binding.itemPrice.text = "R$ %.2f".format(menuItem.price)
+
+                val storageReference:StorageReference = Firebase.storage.reference
+                val imageRef = storageReference.child(
+//            image
+                    "/produtos/cerveja.png"
+                )
+                imageRef.downloadUrl.addOnSuccessListener { uri ->
+                    Glide.with(holder.itemView.context)
+                        .load(uri)
+                        .into(holder.binding.itemImage)
+                }
                 holder.itemView.setOnClickListener { onClick(item) }
             }
         }

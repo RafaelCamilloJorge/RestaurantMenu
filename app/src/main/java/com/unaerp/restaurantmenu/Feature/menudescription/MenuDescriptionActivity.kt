@@ -6,9 +6,14 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.unaerp.restaurantmenu.Domain.ResponseMenuItem
+import com.unaerp.restaurantmenu.R
 import com.unaerp.restaurantmenu.databinding.ActivityMenuDescriptionBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.StorageReference
 
 class MenuDescriptionActivity : AppCompatActivity() {
 
@@ -25,7 +30,7 @@ class MenuDescriptionActivity : AppCompatActivity() {
         val id = intent.getStringExtra("id") ?: ""
         val name = intent.getStringExtra("name") ?: "Produto Desconhecido"
         val description = intent.getStringExtra("description") ?: ""
-        val price = intent.getDoubleExtra("price", 0.0)
+        val price = intent.getDoubleExtra("price", 0.00)
         val image = intent.getStringExtra("image") ?: ""
         val type = intent.getStringExtra("type") ?: "outro"
 
@@ -33,8 +38,17 @@ class MenuDescriptionActivity : AppCompatActivity() {
 
         binding.name.text = name
         binding.description.text = description
-        binding.price.text = "Preço " + price.toString().format("%.2f")
+        binding.price.text = "Preço  R\$ " + price.toString().format("%.2f")
 
+        val storageReference: StorageReference = Firebase.storage.reference
+        val imageRef = storageReference.child(
+//            image
+            "/produtos/cerveja.png"
+        )
+        imageRef.downloadUrl.addOnSuccessListener { uri ->
+            Glide.with(this@MenuDescriptionActivity).load(uri).error(R.drawable.ic_password)
+                .into(binding.image)
+        }
 
         binding.increaseButton.setOnClickListener {
             binding.itemQuantity.text = (quantity + 1).toString()
@@ -68,9 +82,17 @@ class MenuDescriptionActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             menuDescriptionViewModel.cartState.collect { result ->
                 result?.onSuccess {
-                    Toast.makeText(this@MenuDescriptionActivity, "Item adicionado ao carrinho!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@MenuDescriptionActivity,
+                        "Item adicionado ao carrinho!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }?.onFailure { error ->
-                    Toast.makeText(this@MenuDescriptionActivity, "Erro ao adicionar ao carrinho: ${error.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@MenuDescriptionActivity,
+                        "Erro ao adicionar ao carrinho: ${error.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
