@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
+import com.unaerp.restaurantmenu.Feature.login.MainActivity
 import com.unaerp.restaurantmenu.Feature.menu.MenuActivity
 import com.unaerp.restaurantmenu.R
 import com.unaerp.restaurantmenu.databinding.ActivityRegisterBinding
@@ -43,6 +44,11 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT)
                     .show()
             }
+        }
+
+        binding.btnBack.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 
