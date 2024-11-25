@@ -1,19 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginVertical="32dp">
+    android:padding="16dp"
+    android:background="@android:color/white">
 
     <TextView
         android:id="@+id/cartTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Carrinho"
-        android:textSize="24sp"
+        android:textSize="28sp"
         android:textStyle="bold"
+        android:textColor="@android:color/black"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cartRecyclerView"
@@ -22,17 +27,21 @@
         app:layout_constraintTop_toBottomOf="@id/cartTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/totalContainer" />
+        app:layout_constraintBottom_toTopOf="@id/totalContainer"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="16dp"/>
 
     <LinearLayout
         android:id="@+id/totalContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="16dp">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             android:id="@+id/totalPrice"
@@ -40,16 +49,20 @@
             android:layout_height="wrap_content"
             android:text="Total: R$ 0,00"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/confirmButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Finalizar Compra"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@color/black"
-            android:textColor="@android:color/white" />
+            android:backgroundTint="#CD4242"
+            android:textColor="@android:color/white"
+            app:cornerRadius="8dp"
+            android:textAllCaps="false" />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
