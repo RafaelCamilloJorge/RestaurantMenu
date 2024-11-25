@@ -15,4 +15,6 @@ interface AuthRepository {
     suspend fun forgotPassword(email: String): OnResult<Unit>
 
     fun getTokenUser(): OnResult<String>
+
+    suspend fun checkUserIsLogged():OnResult<Boolean>
 }

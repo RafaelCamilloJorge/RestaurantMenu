@@ -16,4 +16,6 @@ interface RemoteAuthenticationDataSource {
     suspend fun logout(): OnResult<Unit>
 
     suspend fun forgotPassword(email: String): OnResult<Unit>
+
+    suspend fun checkUserIsLogged(): OnResult<Boolean>
 }

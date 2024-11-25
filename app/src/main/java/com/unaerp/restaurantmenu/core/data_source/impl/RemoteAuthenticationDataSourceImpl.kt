@@ -85,4 +85,12 @@ class RemoteAuthenticationDataSourceImpl(private val auth: FirebaseAuth) :
             return OnResult.Error(GenericError(error.message))
         }
     }
+
+    override suspend fun checkUserIsLogged(): OnResult<Boolean> {
+        return try {
+            OnResult.Success(auth.currentUser != null)
+        } catch (error: FirebaseException) {
+            OnResult.Error(GenericError(error.message))
+        }
+    }
 }

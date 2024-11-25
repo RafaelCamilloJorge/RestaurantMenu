@@ -53,5 +53,9 @@ class AuthUseCaseImpl(
         return authRepository.forgotPassword(email)
     }
 
+    override suspend fun checkUserIsLogged(): OnResult<Boolean> {
+        return authRepository.checkUserIsLogged()
+    }
+
 
 }

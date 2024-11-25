@@ -29,6 +29,20 @@ class MainViewModel(private val authUseCaseImpl: AuthUseCase) : ViewModel() {
             }
         }
     }
+
+    fun checkExistUser() {
+        viewModelScope.launch {
+            val result = authUseCaseImpl.checkUserIsLogged()
+            result.fold(
+                onSuccess = {
+                    if (it) {
+                        _loginState.value = Result.success(Unit)
+                    }
+                },
+                onError = { }
+            )
+        }
+    }
 }
 
 //---------------------------------ADD products-----------------------------------------------

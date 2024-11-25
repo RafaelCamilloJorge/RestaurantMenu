@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         observeViewModel()
+        viewModel.checkExistUser()
 
         binding.btnLogin.setOnClickListener {
             val email = binding.fieldEmail.text.toString().trim()

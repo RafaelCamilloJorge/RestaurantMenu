@@ -31,4 +31,8 @@ class AuthRepositoryImpl(private var remoteAuthenticationDataSourceImpl: RemoteA
     override fun getTokenUser(): OnResult<String> {
         return remoteAuthenticationDataSourceImpl.getTokenUser()
     }
+
+    override suspend fun checkUserIsLogged(): OnResult<Boolean> {
+        return remoteAuthenticationDataSourceImpl.checkUserIsLogged()
+    }
 }
