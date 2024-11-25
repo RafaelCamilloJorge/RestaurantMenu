@@ -29,7 +29,7 @@ class MenuDescriptionActivity : AppCompatActivity() {
         val image = intent.getStringExtra("image") ?: ""
         val type = intent.getStringExtra("type") ?: "outro"
 
-        var quantity = binding.itemQuantity.text.toString().toInt()
+        var quantity = binding.itemQuantity.text.toString().toLong()
 
         binding.name.text = name
         binding.description.text = description
@@ -38,14 +38,14 @@ class MenuDescriptionActivity : AppCompatActivity() {
 
         binding.increaseButton.setOnClickListener {
             binding.itemQuantity.text = (quantity + 1).toString()
-            quantity = binding.itemQuantity.text.toString().toInt()
+            quantity = binding.itemQuantity.text.toString().toLong()
         }
 
         binding.decreaseButton.setOnClickListener {
             if (quantity > 1) {
                 binding.itemQuantity.text = (quantity - 1).toString()
             }
-            quantity = binding.itemQuantity.text.toString().toInt()
+            quantity = binding.itemQuantity.text.toString().toLong()
         }
 
         binding.addToCartButton.setOnClickListener {

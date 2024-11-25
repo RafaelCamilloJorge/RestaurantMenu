@@ -11,7 +11,7 @@ class MenuDescriptionViewModel(private var orderUseCaseImpl: OrderUseCase) : Vie
     val cartState = _cartState.asStateFlow()
 
 
-    fun addItemInCart(menuItem: ResponseMenuItem, quantity: Int) {
+    fun addItemInCart(menuItem: ResponseMenuItem, quantity: Long) {
         viewModelScope.launch {
             val response = orderUseCaseImpl.itemInShoppingCar(menuItem, quantity)
             response.fold(

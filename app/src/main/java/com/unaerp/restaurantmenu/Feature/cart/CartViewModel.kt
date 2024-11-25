@@ -3,6 +3,7 @@ package com.unaerp.restaurantmenu.Feature.cart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.unaerp.restaurantmenu.Domain.CartItem
+import com.unaerp.restaurantmenu.Domain.ResponseMenuItem
 import com.unaerp.restaurantmenu.core.use_case.order.OrderUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,4 +42,28 @@ class CartViewModel(private var orderUseCase: OrderUseCase) : ViewModel() {
             })
         }
     }
+
+    fun updateItemQuantity(cartItem: CartItem) {
+        viewModelScope.launch {
+            val responseMenuItem = ResponseMenuItem(
+                id = cartItem.id,
+                name = cartItem.name,
+                description = cartItem.description,
+                price = cartItem.unitPrice,
+                image = cartItem.image,
+                type = cartItem.type
+            )
+
+            val response = orderUseCase.itemInShoppingCar(responseMenuItem, cartItem.quantity)
+            response.fold(
+                onSuccess = {
+                    _cartState.value = _cartState.value
+                },
+                onError = { error ->
+                    _cartState.value = Result.failure(error)
+                }
+            )
+        }
+    }
+
 }

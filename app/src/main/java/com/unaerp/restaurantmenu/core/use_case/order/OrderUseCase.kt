@@ -13,5 +13,5 @@ interface OrderUseCase {
 
     suspend fun finishPurchase(): OnResult<Unit>
 
-    suspend fun itemInShoppingCar(item: ResponseMenuItem, quantity: Int): OnResult<Unit>
+    suspend fun itemInShoppingCar(item: ResponseMenuItem, quantity: Long): OnResult<Unit>
 }

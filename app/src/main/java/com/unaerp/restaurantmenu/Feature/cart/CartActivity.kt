@@ -23,7 +23,7 @@ class CartActivity : AppCompatActivity() {
         val initialCartItems = mutableListOf<CartItem>()
         viewModel.getCartUser()
 
-        cartAdapter = CartAdapter(initialCartItems) {
+        cartAdapter = CartAdapter(initialCartItems, viewModel) {
             updateTotal()
         }
 

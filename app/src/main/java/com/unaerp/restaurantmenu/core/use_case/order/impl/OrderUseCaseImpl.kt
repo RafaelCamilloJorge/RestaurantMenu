@@ -18,7 +18,7 @@ class OrderUseCaseImpl(
     private var menuRepository: MenuRepository,
 ) : OrderUseCase {
     override suspend fun itemInShoppingCar(
-        item: ResponseMenuItem, quantity: Int
+        item: ResponseMenuItem, quantity: Long
     ): OnResult<Unit> {
         try {
             val responseGetUserToken = authRepository.getTokenUser()
