@@ -2,6 +2,7 @@ package com.unaerp.restaurantmenu.Feature.cart
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +29,20 @@ class CartActivity : AppCompatActivity() {
         }
 
         binding.confirmButton.setOnClickListener {
-            viewModel.finishPurchase()
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Finalizar Compra")
+            builder.setMessage("Você tem certeza que deseja finalizar a compra?")
+
+            builder.setPositiveButton("Sim") { dialog, which ->
+                viewModel.finishPurchase()
+            }
+
+            builder.setNegativeButton("Não") { dialog, which ->
+                dialog.dismiss()
+            }
+
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
         }
 
         binding.cartRecyclerView.layoutManager = LinearLayoutManager(this)
