@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="@android:color/white"
+    android:elevation="2dp">
 
     <TextView
         android:id="@+id/itemName"
@@ -12,21 +15,27 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Item Name"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:id="@+id/itemPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="R$ 0.00"
-        android:paddingRight="10dp"
-        android:textSize="18sp" />
+        android:paddingEnd="10dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/darker_gray"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/decreaseButton"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:text="-"/>
+        android:layout_width="55dp"
+        android:layout_height="45dp"
+        android:text="-"
+        android:textColor="@android:color/white"
+        app:cornerRadius="8dp"
+        android:backgroundTint="#CD4242"/>
 
     <TextView
         android:id="@+id/itemQuantity"
@@ -34,11 +43,16 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="8dp"
         android:text="1"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/increaseButton"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:text="+"/>
+        android:layout_width="55dp"
+        android:layout_height="45dp"
+        android:text="+"
+        android:textColor="@android:color/white"
+        app:cornerRadius="8dp"
+        android:backgroundTint="#CD4242"/>
 </LinearLayout>

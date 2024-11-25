@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/title"
@@ -14,17 +15,21 @@
         android:text="Detalhes"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:textColor="@android:color/black"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="0dp"
         android:layout_height="350dp"
+        android:scaleType="centerCrop"
         android:src="@color/cardview_dark_background"
         app:layout_constraintTop_toBottomOf="@id/title"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
     <TextView
@@ -34,19 +39,21 @@
         android:text="Nome"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/image"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp" />
 
     <TextView
         android:id="@+id/description"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Descrição"
+        android:text="Descrição do item detalhada para o usuário."
         android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/name" />
 
     <TextView
@@ -54,19 +61,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Preço R$ 0,00"
+        android:text="Preço: R$ 0,00"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/description" />
 
-    <Button
-        android:id="@+id/increaseButton"
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/decreaseButton"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:text="+"
+        android:text="-"
+        android:layout_marginTop="16dp"
+        app:cornerRadius="8dp"
         app:layout_constraintTop_toBottomOf="@id/price"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/itemQuantity"
+        app:layout_constraintBottom_toBottomOf="@+id/increaseButton"
+        android:backgroundTint="#CD4242"/>
 
     <TextView
         android:id="@+id/itemQuantity"
@@ -74,29 +89,37 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="8dp"
         android:text="1"
-        app:layout_constraintTop_toBottomOf="@id/price"
-        app:layout_constraintRight_toLeftOf="@+id/increaseButton"
-        app:layout_constraintLeft_toRightOf="@+id/decreaseButton"
-        app:layout_constraintTop_toTopOf="@+id/increaseButton"
-        app:layout_constraintBottom_toBottomOf="@+id/increaseButton"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toTopOf="@+id/decreaseButton"
+        app:layout_constraintBottom_toBottomOf="@+id/decreaseButton"
+        app:layout_constraintStart_toEndOf="@id/decreaseButton"
+        app:layout_constraintEnd_toStartOf="@id/increaseButton" />
 
-    <Button
-        android:id="@+id/decreaseButton"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/increaseButton"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/price"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="-"/>
+        android:text="+"
+        app:cornerRadius="8dp"
+        app:layout_constraintStart_toEndOf="@id/itemQuantity"
+        app:layout_constraintTop_toTopOf="@+id/decreaseButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="#CD4242"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/addToCartButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Adicionar ao carrinho"
-        app:layout_constraintTop_toBottomOf="@id/decreaseButton"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
+        android:textAllCaps="false"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#CD4242"
+        android:textColor="@android:color/white"
+        app:cornerRadius="8dp"
+        app:layout_constraintTop_toBottomOf="@id/increaseButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
