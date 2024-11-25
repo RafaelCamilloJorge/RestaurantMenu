@@ -41,10 +41,7 @@ class MenuDescriptionActivity : AppCompatActivity() {
         binding.price.text = "Preço  R\$ " + price.toString().format("%.2f")
 
         val storageReference: StorageReference = Firebase.storage.reference
-        val imageRef = storageReference.child(
-//            image
-            "/produtos/cerveja.png"
-        )
+        val imageRef = storageReference.child(image)
         imageRef.downloadUrl.addOnSuccessListener { uri ->
             Glide.with(this@MenuDescriptionActivity).load(uri).error(R.drawable.ic_password)
                 .into(binding.image)

@@ -21,7 +21,8 @@ class MenuRecyclerViewAdapter(
 
     private val itemList = items.toMutableList()
 
-    sealed class MenuRecyclerViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
+    sealed class MenuRecyclerViewHolder(binding: ViewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         class CategoryViewHolder(val binding: ItemCategoryBinding) : MenuRecyclerViewHolder(binding)
         class ItemViewHolder(val binding: ItemMenuItemBinding) : MenuRecyclerViewHolder(binding)
     }
@@ -29,13 +30,17 @@ class MenuRecyclerViewAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuRecyclerViewHolder {
         return when (viewType) {
             TIPO_CATEGORIA -> {
-                val binding = ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding =
+                    ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 MenuRecyclerViewHolder.CategoryViewHolder(binding)
             }
+
             TIPO_ITEM -> {
-                val binding = ItemMenuItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding =
+                    ItemMenuItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 MenuRecyclerViewHolder.ItemViewHolder(binding)
             }
+
             else -> throw IllegalArgumentException("Tipo de View Inválido")
         }
     }
@@ -47,17 +52,15 @@ class MenuRecyclerViewAdapter(
                 val category = item as MenuCategory
                 holder.binding.categoryTitle.text = category.title
             }
+
             is MenuRecyclerViewHolder.ItemViewHolder -> {
                 val menuItem = item as ResponseMenuItem
                 holder.binding.itemName.text = menuItem.name
                 holder.binding.itemImage.setImageResource(R.drawable.ic_launcher_foreground)
                 holder.binding.itemPrice.text = "R$ %.2f".format(menuItem.price)
 
-                val storageReference:StorageReference = Firebase.storage.reference
-                val imageRef = storageReference.child(
-//            image
-                    "/produtos/cerveja.png"
-                )
+                val storageReference: StorageReference = Firebase.storage.reference
+                val imageRef = storageReference.child(item.image)
                 imageRef.downloadUrl.addOnSuccessListener { uri ->
                     Glide.with(holder.itemView.context)
                         .load(uri)
