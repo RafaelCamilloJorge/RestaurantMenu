@@ -43,6 +43,7 @@ class MenuActivity : AppCompatActivity() {
                 intent.putExtra("id", item.id)
                 intent.putExtra("name", item.name)
                 intent.putExtra("description", item.description)
+                intent.putExtra("image", item.image)
                 intent.putExtra("price", item.price)
                 startActivity(intent)
             }
