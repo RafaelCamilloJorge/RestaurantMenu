@@ -2,6 +2,7 @@ package com.unaerp.restaurantmenu.Feature.forgotpassword
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.unaerp.restaurantmenu.databinding.ActivityForgotPasswordBinding
@@ -15,6 +16,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = ActivityForgotPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -42,4 +44,5 @@ class ForgotPasswordActivity : AppCompatActivity() {
             }
         }
     }
+
 }

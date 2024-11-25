@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 class ForgotPasswordViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
 
-    private val _recoverPasswordState = MutableStateFlow(Result.success(Unit))
+    private val _recoverPasswordState = MutableStateFlow<Result<Unit>?>(null)
     val recoverPasswordState = _recoverPasswordState.asStateFlow()
 
     fun recoverPassword(email: String) {
