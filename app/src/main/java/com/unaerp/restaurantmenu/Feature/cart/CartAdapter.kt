@@ -7,7 +7,7 @@ import com.unaerp.restaurantmenu.Domain.CartItem
 import com.unaerp.restaurantmenu.databinding.ItemCartBinding
 
 class CartAdapter(
-    private val cartItems: List<CartItem>,
+    private val cartItems: MutableList<CartItem>,
     private val onUpdateTotal: () -> Unit
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
@@ -19,14 +19,14 @@ class CartAdapter(
             binding.itemQuantity.text = cartItem.quantity.toString()
 
             binding.increaseButton.setOnClickListener {
-//                cartItem.quantity++
+                cartItem.quantity++
                 binding.itemQuantity.text = cartItem.quantity.toString()
                 onUpdateTotal()
             }
 
             binding.decreaseButton.setOnClickListener {
                 if (cartItem.quantity > 1) {
-//                    cartItem.quantity--
+                    cartItem.quantity--
                     binding.itemQuantity.text = cartItem.quantity.toString()
                     onUpdateTotal()
                 }
@@ -45,8 +45,14 @@ class CartAdapter(
 
     override fun getItemCount(): Int = cartItems.size
 
+
     fun getTotalPrice(): Double {
-//        return cartItems.sumOf { it.price * it.quantity }
-        return 12.34
+        return cartItems.sumOf { it.unitPrice * it.quantity }
+    }
+
+    fun updateList(newList: List<CartItem>) {
+        cartItems.clear()
+        cartItems.addAll(newList)
+        notifyDataSetChanged()
     }
 }
