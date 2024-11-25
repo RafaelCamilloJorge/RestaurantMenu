@@ -7,6 +7,24 @@
     android:padding="24dp"
     android:background="@android:color/white">
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_exit"
+        app:iconTint="@android:color/white"
+        app:iconPadding="8dp"
+        android:backgroundTint="@color/black"
+        android:textColor="@android:color/white"
+        app:cornerRadius="8dp"
+        android:text="Sair"
+        android:textAllCaps="false"
+        android:paddingVertical="8dp"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintTop_toTopOf="@+id/title"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -31,6 +49,9 @@
         android:textColor="@android:color/white"
         android:text="Carrinho"
         android:textAllCaps="false"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:fontFamily="sans-serif-medium"
         app:layout_constraintTop_toTopOf="@+id/title"
         app:layout_constraintBottom_toBottomOf="@+id/title"
         app:layout_constraintEnd_toEndOf="parent" />
