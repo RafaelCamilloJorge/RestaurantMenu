@@ -57,7 +57,7 @@ class RemoteUserDataSourceImpl(private var db: FirebaseFirestore) : RemoteUserDa
     }
 
     override suspend fun setProductCart(
-        idUser: String, idProduct: String, quantity: Int
+        idUser: String, idProduct: String, quantity: Long
     ): OnResult<Unit> {
         try {
             val responseGetCart = getCartUser(idUser)

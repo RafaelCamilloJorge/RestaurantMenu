@@ -26,8 +26,9 @@ class OrderUseCaseImpl(
             if (responseGetUserToken is OnResult.Error) return OnResult.Error(responseGetUserToken.exception)
 
             if (responseGetUserToken is OnResult.Success) {
+                val updatedQuantity: Long = quantity.toLong()
                 val responseAddItem = userDataRepository.setQuantityProduct(
-                    responseGetUserToken.data, item.id, quantity
+                    responseGetUserToken.data, item.id, updatedQuantity
                 )
                 if (responseAddItem is OnResult.Success) {
                     return OnResult.Success(responseAddItem.data)

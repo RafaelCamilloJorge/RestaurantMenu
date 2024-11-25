@@ -1,5 +1,3 @@
-package com.unaerp.restaurantmenu.Feature.menudescription
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.unaerp.restaurantmenu.Domain.ResponseMenuItem
@@ -9,17 +7,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MenuDescriptionViewModel(private var orderUseCaseImpl: OrderUseCase) : ViewModel() {
-    private val _recoverPasswordState = MutableStateFlow(Result.success(Unit))
-    val recoverPasswordState = _recoverPasswordState.asStateFlow()
+    private val _cartState = MutableStateFlow<Result<Unit>?>(null)
+    val cartState = _cartState.asStateFlow()
+
 
     fun addItemInCart(menuItem: ResponseMenuItem, quantity: Int) {
         viewModelScope.launch {
             val response = orderUseCaseImpl.itemInShoppingCar(menuItem, quantity)
-            response.fold(onSuccess = {
-                _recoverPasswordState.value = Result.success(it)
-            }, onError = {
-
-            })
+            response.fold(
+                onSuccess = {
+                    _cartState.value = Result.success(it)
+                },
+                onError = {
+                    _cartState.value = Result.failure(it)
+                }
+            )
         }
     }
 }

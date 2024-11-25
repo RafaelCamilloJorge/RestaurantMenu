@@ -7,7 +7,7 @@ data class CartItem(
     val unitPrice: Double,
     val image: String,
     val type: String,
-    val quantity: Int
+    val quantity: Long
 ) {
     fun totalPrice(): Double {
         return this.quantity * this.unitPrice

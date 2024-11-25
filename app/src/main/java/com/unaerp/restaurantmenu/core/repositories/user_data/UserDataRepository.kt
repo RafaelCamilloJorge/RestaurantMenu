@@ -11,5 +11,5 @@ interface UserDataRepository {
 
     suspend fun finishPurchase(id: String): OnResult<Unit>
 
-    suspend fun setQuantityProduct(idUser: String, idProduct: String, quantity: Int): OnResult<Unit>
+    suspend fun setQuantityProduct(idUser: String, idProduct: String, quantity: Long): OnResult<Unit>
 }

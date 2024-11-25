@@ -39,6 +39,7 @@ class MenuActivity : AppCompatActivity() {
         adapter = MenuRecyclerViewAdapter(emptyList()) { item ->
             if (item is ResponseMenuItem) {
                 val intent = Intent(this, MenuDescriptionActivity::class.java)
+                intent.putExtra("id", item.id)
                 intent.putExtra("name", item.name)
                 intent.putExtra("description", item.description)
                 intent.putExtra("price", item.price)

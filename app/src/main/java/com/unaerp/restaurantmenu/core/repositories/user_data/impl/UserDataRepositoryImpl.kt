@@ -23,8 +23,8 @@ class UserDataRepositoryImpl(private var remoteUserDataSourceImpl: RemoteUserDat
     override suspend fun setQuantityProduct(
         idUser: String,
         idProduct: String,
-        quantity: Int
+        quantity: Long
     ): OnResult<Unit> {
-        return remoteUserDataSourceImpl.setProductCart(idUser, idProduct, quantity)
+        return remoteUserDataSourceImpl.setProductCart(idUser, idProduct, quantity.toLong())
     }
 }
