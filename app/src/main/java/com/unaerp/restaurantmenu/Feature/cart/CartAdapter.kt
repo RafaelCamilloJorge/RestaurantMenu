@@ -3,6 +3,10 @@ package com.unaerp.restaurantmenu.Feature.cart
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import com.unaerp.restaurantmenu.Domain.CartItem
 import com.unaerp.restaurantmenu.databinding.ItemCartBinding
 
@@ -18,6 +22,12 @@ class CartAdapter(
             binding.itemName.text = cartItem.name
             binding.itemPrice.text = "R$ %.2f".format(cartItem.unitPrice)
             binding.itemQuantity.text = cartItem.quantity.toString()
+
+            val storageReference: StorageReference = Firebase.storage.reference
+            val imageRef = storageReference.child(cartItem.image)
+            imageRef.downloadUrl.addOnSuccessListener { uri ->
+                Glide.with(binding.imageView.context).load(uri).into(binding.imageView)
+            }
 
             binding.increaseButton.setOnClickListener {
                 cartItem.quantity++
@@ -36,6 +46,11 @@ class CartAdapter(
                     notifyDataSetChanged()
                 }
             }
+
+            binding.trashNutton.setOnClickListener {
+//                viewModel.deleteItem(cartItem)
+//                notifyDataSetChanged()
+            }
         }
     }
 
@@ -49,7 +64,6 @@ class CartAdapter(
     }
 
     override fun getItemCount(): Int = cartItems.size
-
 
     fun getTotalPrice(): Double {
         return cartItems.sumOf { it.unitPrice * it.quantity }

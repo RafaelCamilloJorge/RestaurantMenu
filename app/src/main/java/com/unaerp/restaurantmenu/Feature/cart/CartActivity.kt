@@ -22,7 +22,7 @@ class CartActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        observeViewModel()
         val initialCartItems = mutableListOf<CartItem>()
         viewModel.getCartUser()
 
@@ -50,7 +50,6 @@ class CartActivity : AppCompatActivity() {
         binding.cartRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.cartRecyclerView.adapter = cartAdapter
 
-        observeViewModel()
         updateTotal()
     }
 

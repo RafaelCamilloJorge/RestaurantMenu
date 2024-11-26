@@ -33,13 +33,13 @@ class CartViewModel(private var orderUseCase: OrderUseCase) : ViewModel() {
 
     fun getCartUser() {
         viewModelScope.launch {
-            var response = orderUseCase.getMyCart()
+            val response = orderUseCase.getMyCart()
             response.fold(
                 onSuccess = {
                     _cartState.value = Result.success(it.items)
-            }, onError = { error ->
-                _cartState.value = Result.failure(error)
-            })
+                }, onError = { error ->
+                    _cartState.value = Result.failure(error)
+                })
         }
     }
 
@@ -66,4 +66,17 @@ class CartViewModel(private var orderUseCase: OrderUseCase) : ViewModel() {
         }
     }
 
+    fun deleteItem(cart: CartItem) {
+        viewModelScope.launch {
+            val response = orderUseCase.removeItemInShoppingCar(cart.id)
+            response.fold(
+                onSuccess = {
+                    getCartUser()
+                },
+                onError = { error ->
+                    _cartState.value = Result.failure(error)
+                }
+            )
+        }
+    }
 }

@@ -98,7 +98,6 @@ class OrderUseCaseImpl(
 
                 if (responseMenu is OnResult.Success && responseCartUser is OnResult.Success) {
                     for ((category, menuItems) in responseMenu.data) {
-                        println("Categoria: $category")
                         for (menuItem in menuItems) {
                             responseCartUser.data.forEach { itemCart ->
                                 if (itemCart.id == menuItem.id) {
@@ -114,10 +113,8 @@ class OrderUseCaseImpl(
                                         )
                                     )
                                     cart.addValue(itemCart.quantity * menuItem.price)
-                                    println(itemCart.quantity * menuItem.price)
                                 }
                             }
-                            println("- ${menuItem.name}: R$ ${menuItem.price}")
                         }
                     }
                 }
