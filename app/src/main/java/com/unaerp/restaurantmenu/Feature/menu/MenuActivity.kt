@@ -34,6 +34,11 @@ class MenuActivity : AppCompatActivity() {
             val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
         }
+
+        binding.logout.setOnClickListener {
+            viewModel.logout()
+            finish()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -64,6 +69,16 @@ class MenuActivity : AppCompatActivity() {
                         "Erro ao carregar menu: ${error.message}",
                         Toast.LENGTH_SHORT
                     ).show()
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.loginState.collect { result ->
+                result?.onSuccess {
+                    Toast.makeText(this@MenuActivity, "Logout realizado com sucesso", Toast.LENGTH_SHORT).show()
+                }?.onFailure { error ->
+                    Toast.makeText(this@MenuActivity, "Erro ao realizar logout: ${error.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }

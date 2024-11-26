@@ -27,7 +27,7 @@ class DependencyInitializer {
         //ViewModels
         viewModel { MainViewModel(get<AuthUseCaseImpl>()) }
         viewModel { RegisterViewModel(get<AuthUseCaseImpl>()) }
-        viewModel { MenuViewModel(get<MenuUseCaseImpl>()) }
+        viewModel { MenuViewModel(get<MenuUseCaseImpl>(), get<AuthUseCaseImpl>()) }
         viewModel { CartViewModel(get<OrderUseCaseImpl>()) }
         viewModel { ForgotPasswordViewModel(get<AuthUseCaseImpl>()) }
         viewModel { MenuDescriptionViewModel(get<OrderUseCaseImpl>()) }
