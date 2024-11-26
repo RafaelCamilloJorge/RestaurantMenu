@@ -38,7 +38,7 @@ class MenuDescriptionActivity : AppCompatActivity() {
 
         binding.name.text = name
         binding.description.text = description
-        binding.price.text = "Preço  R\$ " + price.toString().format("%.2f")
+        binding.price.text = "Preço  R\$ " + "%.2f".format(price)
 
         val storageReference: StorageReference = Firebase.storage.reference
         val imageRef = storageReference.child(image)
