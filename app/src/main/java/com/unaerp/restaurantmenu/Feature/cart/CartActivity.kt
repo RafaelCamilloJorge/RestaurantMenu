@@ -26,9 +26,11 @@ class CartActivity : AppCompatActivity() {
         val initialCartItems = mutableListOf<CartItem>()
         viewModel.getCartUser()
 
-        cartAdapter = CartAdapter(initialCartItems, viewModel) {
-            updateTotal()
-        }
+        cartAdapter = CartAdapter(
+            cartItems = initialCartItems,
+            updateItemQuantity = { cartItem -> viewModel.updateItemQuantity(cartItem) },
+            deleteItem = { cartItem -> viewModel.deleteItem(cartItem) },
+            onUpdateTotal = { updateTotal() })
 
         binding.confirmButton.setOnClickListener {
             val builder = AlertDialog.Builder(this)
