@@ -12,17 +12,19 @@ import kotlinx.coroutines.tasks.await
 
 class RemoteOrderDataSourceImpl(private val db: FirebaseFirestore) : RemoteOrderDataSource {
     override suspend fun removeItemInShoppingCar(idItem: String, idUser: String): OnResult<Unit> {
-        try {
+        return try {
             val docRefUser: DocumentReference = db.collection("users").document(idUser)
-            docRefUser.get().addOnCompleteListener { doc ->
-                val shoppingCar: MutableList<MutableMap<String, Any>> =
-                    doc.result.get("shopping_cart") as MutableList<MutableMap<String, Any>>
-                shoppingCar.removeIf { item -> item.getValue("id") == idItem }
-                docRefUser.update("shopping_cart", shoppingCar)
-            }
-            return OnResult.Success(Unit)
+            val documentSnapshot = docRefUser.get().await()
+
+            val shoppingCar = documentSnapshot.get("shopping_cart") as? MutableList<MutableMap<String, Any>>
+                ?: mutableListOf()
+
+            shoppingCar.removeIf { item -> item["id"] == idItem }
+            docRefUser.update("shopping_cart", shoppingCar).await()
+
+            OnResult.Success(Unit)
         } catch (error: FirebaseFirestoreException) {
-            return OnResult.Error(GenericError("Erro ao remover item"))
+            OnResult.Error(GenericError("Erro ao remover item"))
         }
     }
 

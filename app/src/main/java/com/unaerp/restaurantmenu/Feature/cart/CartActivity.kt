@@ -28,8 +28,7 @@ class CartActivity : AppCompatActivity() {
 
         cartAdapter = CartAdapter(
             cartItems = initialCartItems,
-            updateItemQuantity = { cartItem -> viewModel.updateItemQuantity(cartItem) },
-            deleteItem = { cartItem -> viewModel.deleteItem(cartItem) },
+            viewModel = viewModel,
             onUpdateTotal = { updateTotal() })
 
         binding.confirmButton.setOnClickListener {

@@ -12,8 +12,7 @@ import com.unaerp.restaurantmenu.databinding.ItemCartBinding
 
 class CartAdapter(
     private val cartItems: MutableList<CartItem>,
-    private val updateItemQuantity: (CartItem) -> Unit,
-    private val deleteItem: (CartItem) -> Unit,
+    private val viewModel: CartViewModel,
     private val onUpdateTotal: () -> Unit
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
@@ -33,7 +32,7 @@ class CartAdapter(
             binding.increaseButton.setOnClickListener {
                 cartItem.quantity++
                 binding.itemQuantity.text = cartItem.quantity.toString()
-                updateItemQuantity(cartItem)
+                viewModel.updateItemQuantity(cartItem)
                 onUpdateTotal()
                 notifyDataSetChanged()
             }
@@ -42,14 +41,14 @@ class CartAdapter(
                 if (cartItem.quantity > 1) {
                     cartItem.quantity--
                     binding.itemQuantity.text = cartItem.quantity.toString()
-                    updateItemQuantity(cartItem)
+                    viewModel.updateItemQuantity(cartItem)
                     onUpdateTotal()
                     notifyDataSetChanged()
                 }
             }
 
             binding.trashNutton.setOnClickListener {
-                deleteItem(cartItem)
+                viewModel.deleteItem(cartItem)
                 notifyDataSetChanged()
             }
         }
