@@ -19,8 +19,6 @@ class RegisterViewModel(private var authUseCaseImpl: AuthUseCaseImpl) : ViewMode
                 println("Conta criada")
                 _registerState.value = Result.success(it)
             }, onError = {
-                println(it.messageError())
-
                 _registerState.value = Result.failure(it)
             })
         }

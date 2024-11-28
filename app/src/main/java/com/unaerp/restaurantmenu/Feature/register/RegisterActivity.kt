@@ -14,6 +14,7 @@ import com.unaerp.restaurantmenu.Feature.menu.MenuActivity
 import com.unaerp.restaurantmenu.R
 import com.unaerp.restaurantmenu.databinding.ActivityRegisterBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import android.util.Patterns
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
@@ -38,7 +39,10 @@ class RegisterActivity : AppCompatActivity() {
             val password = binding.fieldPassword.text.toString().trim()
             val name = binding.fieldName.text.toString().trim()
 
-            if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()) {
+            if (!isValidEmail(binding.fieldEmail.text.toString().trim())) {
+                Toast.makeText(this, "Por favor, preencha um email válido", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()) {
                 registerViewModel.registerAccount(email, password, name)
             } else {
                 Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT)
@@ -59,6 +63,7 @@ class RegisterActivity : AppCompatActivity() {
                     Toast.makeText(
                         this@RegisterActivity, "Criação de conta bem-sucedida", Toast.LENGTH_SHORT
                     ).show()
+                    finish()
                     startActivity(Intent(this@RegisterActivity, MenuActivity::class.java))
                 }?.onFailure { error ->
                     Toast.makeText(
@@ -69,5 +74,9 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 }
